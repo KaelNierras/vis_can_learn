@@ -5,6 +5,8 @@ import 'package:vis_can_learn/common/wiget/InputText.dart';
 import 'package:vis_can_learn/theme/custom_colors.dart';
 import 'package:vis_can_learn/utils/widget_helper.dart';
 
+import 'package:vis_can_learn/features/signup/views/signup_screen.dart';
+
 class Login extends StatefulWidget {
   const Login({super.key});
 
@@ -20,6 +22,16 @@ class _LoginState extends State<Login> {
     super.initState();
     //initialization();
   }
+
+   void gotoSignUp() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const Signup(),
+      ),
+    );
+  }
+
 
   // //Splash Screen Initialization
   // void initialization() async {
@@ -167,11 +179,18 @@ class _LoginState extends State<Login> {
                     style: TextStyle(color: Colors.white),
                   ),
                   addHorizontalSpace(5),
-                  const Text(
-                    'Sign Up',
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold, color: Colors.white),
-                  ),
+                  GestureDetector(
+                    onTap: () {
+                     gotoSignUp();
+                    },
+                    child: const Text(
+                      'Sign Up',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold, 
+                        color: Colors.white
+                      ),
+                    ),
+                  )
                 ],
               ),
             ],
