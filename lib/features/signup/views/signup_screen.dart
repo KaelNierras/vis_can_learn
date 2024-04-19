@@ -100,9 +100,7 @@ class _SignupState extends State<Signup> {
                   ),
                 ],
               ),
-
-              addVerticalSpace(10),
-              addVerticalSpace(20),
+              addVerticalSpace(30),
               SizedBox(
                 width: MediaQuery.of(context).size.width,
                 child: ElevatedButton(
