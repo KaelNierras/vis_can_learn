@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "310619288944",
+    "project_id": "viscanlearn",
+    "storage_bucket": "viscanlearn.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:310619288944:android:8be30a1dd0d96e99430bb5",
+        "android_client_info": {
+          "package_name": "com.example.vis_can_learn"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA-3-jOIzZB11fUe046BOl4K39CXw9pNGM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,5 +1,8 @@
 // ignore_for_file: library_private_types_in_public_api
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+
+import 'firebase_options.dart';
 
 //Customize theme and Functions
 import 'package:flutter/material.dart';
@@ -13,14 +16,16 @@ import 'features/onboarding/views/onboarding_screen.dart';
 import 'theme/theme_constants.dart';
 
 int? isViewed;
-int? isLogged;
+int isLogged = 0;
 
-void main() async {
+Future<void> main() async {
   // WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   // FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   SharedPreferences prefs = await SharedPreferences.getInstance();
   isViewed = prefs.getInt('onboard');
-  isLogged = 0;
   runApp(const MyApp());
 }
 
