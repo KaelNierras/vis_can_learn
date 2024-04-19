@@ -25,12 +25,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   void initState() {
     _controller = PageController();
     super.initState();
-    initialization();
-  }
-
-  void initialization() async {
-    await Future.delayed(const Duration(seconds: 1));
-    FlutterNativeSplash.remove();
   }
 
   int _currentPage = 0;

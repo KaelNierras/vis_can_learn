@@ -6,15 +6,16 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 //Screens
-import 'features/dashboard/views/dashboard_screen.dart';
+//import 'features/dashboard/views/dashboard_screen.dart';
+import 'features/login/views/login_screen.dart';
 import 'features/onboarding/views/onboarding_screen.dart';
 import 'theme/theme_constants.dart';
 
 int? isViewed;
 
 void main() async {
-  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
-  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  // WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  // FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   SharedPreferences prefs = await SharedPreferences.getInstance();
   isViewed = prefs.getInt('onboard');
   runApp(const MyApp());
@@ -41,7 +42,7 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       title: 'VisCanLearn',
       theme: lightTheme,
-      home: isViewed != 0 ? const OnboardingScreen() : const Dashboard(),
+      home: isViewed != 0 ? const OnboardingScreen() : const Login(),
     );
   }
 }
