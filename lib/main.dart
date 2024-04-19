@@ -4,7 +4,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 //Customize theme and Functions
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:vis_can_learn/features/signup/views/signup_screen.dart';
+import 'package:vis_can_learn/features/dashboard/views/dashboard_screen.dart';
 
 //Screens
 //import 'features/dashboard/views/dashboard_screen.dart';
@@ -13,12 +13,14 @@ import 'features/onboarding/views/onboarding_screen.dart';
 import 'theme/theme_constants.dart';
 
 int? isViewed;
+int? isLogged;
 
 void main() async {
   // WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   // FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   SharedPreferences prefs = await SharedPreferences.getInstance();
   isViewed = prefs.getInt('onboard');
+  isLogged = 0;
   runApp(const MyApp());
 }
 
@@ -43,7 +45,7 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       title: 'VisCanLearn',
       theme: lightTheme,
-      home: isViewed != 0 ? const OnboardingScreen() : const Signup(),
+      home: isViewed != 0 ? const OnboardingScreen() : isLogged != 0? const Dashboard(): const Login(),
     );
   }
 }
