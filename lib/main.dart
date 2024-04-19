@@ -4,6 +4,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 //Customize theme and Functions
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vis_can_learn/features/signup/views/signup_screen.dart';
 
 //Screens
 //import 'features/dashboard/views/dashboard_screen.dart';
@@ -42,7 +43,7 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       title: 'VisCanLearn',
       theme: lightTheme,
-      home: isViewed != 0 ? const OnboardingScreen() : const Login(),
+      home: isViewed != 0 ? const OnboardingScreen() : const Signup(),
     );
   }
 }
