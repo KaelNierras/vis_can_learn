@@ -152,7 +152,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             child: const Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text("START CONSTRUCTING BEAM"),
+                                Text("Start Studying!"),
                                 Icon(Icons.arrow_forward_ios_rounded, size: 15, color: Colors.white,)
                               ],
                             ),
