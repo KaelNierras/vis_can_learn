@@ -12,9 +12,9 @@ class OnboardingContents {
 
 List<OnboardingContents> contents = [
   OnboardingContents(
-    title: "Welcome to VisCanLearn",
+    title: "Welcome to VisCanLearn!",
     image: "assets/images/onboarding/image1.png",
-    desc: "Welcome to VisCanLearn, your ultimate study companion! Whether you're preparing for exams or simply enhancing your knowledge, VisCanLearn is here to support your learning journey.",
+    desc: "Welcome to VisCanLearn!, your ultimate study companion! Whether you're preparing for exams or simply enhancing your knowledge, VisCanLearn is here to support your learning journey.",
   ),
   OnboardingContents(
     title: "Effortless Study",
