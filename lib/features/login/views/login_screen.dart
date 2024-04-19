@@ -1,7 +1,6 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+// import 'package:flutter_native_splash/flutter_native_splash.dart';
+// import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vis_can_learn/common/wiget/InputText.dart';
 import 'package:vis_can_learn/theme/custom_colors.dart';
 import 'package:vis_can_learn/utils/widget_helper.dart';
@@ -33,7 +32,6 @@ class _LoginState extends State<Login> {
     var usernameController = TextEditingController();
     var passwordController = TextEditingController();
     return Scaffold(
-      backgroundColor: Colors.white,
       body: Container(
         width: MediaQuery.of(context).size.width, // Set the width to 100%
         decoration: const BoxDecoration(
@@ -49,16 +47,18 @@ class _LoginState extends State<Login> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              addVerticalSpace(MediaQuery.of(context).size.height / 4,),
+              addVerticalSpace(
+                MediaQuery.of(context).size.height / 5,
+              ),
               const Text(
                 "Log In",
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 30,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w900,
                 ),
               ),
-              addVerticalSpace(10),
+              addVerticalSpace(30),
               InputText(
                 controller: usernameController,
                 name: "Username",
@@ -93,18 +93,22 @@ class _LoginState extends State<Login> {
               const Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Text('Forget Password?', style: TextStyle(color: Colors.white),),
+                  Text(
+                    'Forget Password?',
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ],
               ),
               addVerticalSpace(20),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0), // Add padding to the left and right
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 20.0), // Add padding to the left and right
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Expanded(
                       child: Divider(
-                        thickness: 3.0,
+                        thickness: 2.0,
                         color: Colors.white,
                       ),
                     ),
@@ -116,13 +120,60 @@ class _LoginState extends State<Login> {
                     addHorizontalSpace(10),
                     const Expanded(
                       child: Divider(
-                        thickness: 3.0,
+                        thickness: 2.0,
                         color: Colors.white,
                       ),
                     ),
                   ],
                 ),
-              )
+              ),
+              addVerticalSpace(20),
+              SizedBox(
+                width: MediaQuery.of(context).size.width,
+                child: ElevatedButton(
+                  onPressed: () {
+                    // Respond to button press
+                  },
+                  style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all<Color?>(Colors.transparent),
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(
+                            10.0), // Minimize border radius
+                      ),
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        'assets/images/google_icon.png',
+                        width: 20,
+                        height: 20,
+                      ),
+                      addHorizontalSpace(10),
+                      const Text('Log In with Google'),
+                    ],
+                  ),
+                ),
+              ),
+              addVerticalSpace(10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    'Don\'t have an account?',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  addHorizontalSpace(5),
+                  const Text(
+                    'Sign Up',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, color: Colors.white),
+                  ),
+                ],
+              ),
             ],
           ),
         ),
