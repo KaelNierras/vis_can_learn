@@ -107,15 +107,6 @@ class _SignupState extends State<Signup> {
                   onPressed: () {
                     // Respond to button press
                   },
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color?>(orange),
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(
-                            10.0), // Minimize border radius
-                      ),
-                    ),
-                  ),
                   child: const Text('Sign Up'),
                 ),
               ),

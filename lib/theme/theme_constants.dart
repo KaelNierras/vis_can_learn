@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-const colorPrimary = Color.fromRGBO(123, 178, 222, 1); // light blue in RGB
-const colorAccent = Color.fromRGBO(93, 148, 192, 1); // darker shade of light blue for accent
+const colorPrimary = Color(0xFF4D7C4B); // light blue in RGB
+const colorAccent = Color(0xFFE9C569); // darker shade of light blue for accent
 
 ThemeData lightTheme = ThemeData(
   brightness: Brightness.light,
@@ -20,7 +20,7 @@ ThemeData lightTheme = ThemeData(
       ),
       shape: MaterialStateProperty.all<OutlinedBorder>(
         RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20.0))
+          borderRadius: BorderRadius.circular(10.0))
       ),
       backgroundColor: MaterialStateProperty.all<Color>(colorAccent),
       foregroundColor: MaterialStateProperty.all<Color>(Colors.white),

@@ -16,7 +16,7 @@ import 'features/onboarding/views/onboarding_screen.dart';
 import 'theme/theme_constants.dart';
 
 int? isViewed;
-int isLogged = 0;
+int isLogged = 1;
 
 Future<void> main() async {
   // WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();

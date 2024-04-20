@@ -89,15 +89,6 @@ class _LoginState extends State<Login> {
                   onPressed: () {
                     // Respond to button press
                   },
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color?>(orange),
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(
-                            10.0), // Minimize border radius
-                      ),
-                    ),
-                  ),
                   child: const Text('Log In'),
                 ),
               ),
