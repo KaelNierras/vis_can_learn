@@ -66,7 +66,7 @@ class _LoginState extends State<Login> {
                 "Log In",
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 30,
+                  fontSize: 35,
                   fontWeight: FontWeight.w900,
                 ),
               ),
@@ -140,12 +140,6 @@ class _LoginState extends State<Login> {
                   style: ButtonStyle(
                     backgroundColor:
                         MaterialStateProperty.all<Color?>(Colors.transparent),
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(
-                            10.0), // Minimize border radius
-                      ),
-                    ),
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
