@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
 const colorPrimary = Color(0xFF4D7C4B); // light blue in RGB
+const appBarBackground = Color(0xFF2e544a); // darker shade of light blue for appbar
 const colorAccent = Color(0xFFE9C569); // darker shade of light blue for accent
 
 ThemeData lightTheme = ThemeData(
   brightness: Brightness.light,
-  primaryColor: colorPrimary,
+  primaryColor: appBarBackground,
   appBarTheme: const AppBarTheme(
     color: colorPrimary, // Change this to your desired color
     foregroundColor: Colors.white
