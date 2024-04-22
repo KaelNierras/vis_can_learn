@@ -1,6 +1,7 @@
 // ignore_for_file: library_private_types_in_public_api
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:vis_can_learn/features/dashboard/views/create_set.dart';
 
 import 'firebase_options.dart';
 
@@ -50,7 +51,7 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       title: 'VisCanLearn',
       theme: lightTheme,
-      home: isViewed != 0 ? const OnboardingScreen() : isLogged != 0? const Dashboard(): const Login(),
+      home: isViewed != 0 ? const OnboardingScreen() : isLogged != 0? const CreateSet(): const CreateSet(),
     );
   }
 }
