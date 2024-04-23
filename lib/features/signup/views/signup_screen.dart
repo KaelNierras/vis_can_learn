@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 // import 'package:flutter_native_splash/flutter_native_splash.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
-import 'package:vis_can_learn/common/wiget/InputText.dart';
+import 'package:vis_can_learn/common/wiget/input_text.dart';
 import 'package:vis_can_learn/features/login/views/login_screen.dart';
 import 'package:vis_can_learn/theme/custom_colors.dart';
 import 'package:vis_can_learn/utils/widget_helper.dart';
@@ -38,7 +38,6 @@ class _SignupState extends State<Signup> {
     var emailController = TextEditingController();
     var passwordController = TextEditingController();
     var confirmPasswordController = TextEditingController();
-
     return Scaffold(
       body: Container(
         width: MediaQuery.of(context).size.width, // Set the width to 100%

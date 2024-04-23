@@ -1,159 +1,115 @@
-import 'package:flutter/material.dart';
-import 'package:vis_can_learn/theme/custom_colors.dart';
-import 'package:vis_can_learn/utils/size_config.dart';
+// ignore_for_file: library_private_types_in_public_api
 
-class CreateSet extends StatelessWidget {
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:vis_can_learn/theme/custom_colors.dart';
+import 'package:vis_can_learn/utils/widget_helper.dart';
+import 'package:vis_can_learn/common/wiget/input_text_secondary.dart';
+import 'package:vis_can_learn/common/wiget/dynamic_create_set_cards.dart';
+
+class CreateSet extends StatefulWidget {
   const CreateSet({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    TextTheme textTheme = Theme.of(context).textTheme;
-    SizeConfig().init(context);
-    double width = SizeConfig.screenW!;
-    double height = SizeConfig.screenH!;
+  State<CreateSet> createState() => _CreateSetState();
+}
 
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        appBar: AppBar(
-          backgroundColor: background, // Set the app bar background color
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
+class _CreateSetState extends State<CreateSet> {
+  TextEditingController setText = TextEditingController();
+  TextEditingController description = TextEditingController();
+  TextEditingController course = TextEditingController();
+
+  List<String> items = ['Item 1'];
+  List<TextEditingController> frontSideControllers = [];
+  List<TextEditingController> definitionControllers = [];
+
+  @override
+  void initState() {
+    super.initState();
+    for (var i = 0; i < items.length; i++) {
+      frontSideControllers.add(TextEditingController());
+      definitionControllers.add(TextEditingController());
+    }
+  }
+
+  void addCard() {
+    setState(() {
+      items.add('New Item');
+      frontSideControllers.add(TextEditingController());
+      definitionControllers.add(TextEditingController());
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          color: Colors.white,
+          onPressed: () {
+            // Add back button functionality here
+          },
+        ),
+        title: const Text(
+          'Create Set',
+          style:
+              TextStyle(color: Colors.white), // Set the color of the title text
+        ),
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.check),
             color: Colors.white,
             onPressed: () {
-              // Add back button functionality here
+              // Add check button functionality here
             },
           ),
-          title: const Text(
-            'Create Set',
-            style: TextStyle(color: Colors.white), // Set the color of the title text
-          ),
-          actions: <Widget>[
-            IconButton(
-              icon: const Icon(Icons.check),
-              color: Colors.white,
-              onPressed: () {
-                // Add check button functionality here
-              },
-            ),
-          ],
+        ],
+      ),
+      body: Container(
+        width: MediaQuery.of(context).size.width, // Set the width to 100%
+        decoration: const BoxDecoration(
+          color: background,
+          // image: DecorationImage(
+          //   image: AssetImage('assets/images/mountain_bg.png'),
+          //   fit: BoxFit.cover, // Adjust the image size
+          // ),
         ),
-        body: Container(
-          color: darkGreen, // Set the lower panel background color
-          child: Padding(
-            padding: const EdgeInsets.all(50.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                TextField(
-                  decoration: InputDecoration(
-                    hintText: 'Subject, chapter, unit',
-                    hintStyle: TextStyle(color: Colors.white70),
-                    enabledBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.white), // Set the border color
-                    ),
-                    focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.white), // Set the border color
-                    ),
-                  ),
-                  style: TextStyle(color: Colors.white),
+        child: Padding(
+          padding: const EdgeInsets.all(30.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              InputTextSecondary(
+                  text: 'Subject, chapter, unit', controller: setText),
+              const Text(
+                'SET NAME',
+                style: TextStyle(color: Colors.white),
+              ),
+              addVerticalSpace(20),
+              InputTextSecondary(text: '', controller: description),
+              const Text(
+                'DESCRIPTION (OPTIONAL)',
+                style: TextStyle(color: Colors.white),
+              ),
+              addVerticalSpace(20),
+              InputTextSecondary(text: '', controller: course),
+              const Text(
+                'COURSE',
+                style: TextStyle(color: Colors.white),
+              ),
+              addVerticalSpace(50),
+              Expanded(
+                child: MyCard(
+                  addCardCallback: addCard,
+                  items: items,
+                  frontSideControllers: frontSideControllers,
+                  definitionControllers: definitionControllers,
                 ),
-                SizedBox(height: 5),
-                Text(
-                  'SET NAME',
-                  style: TextStyle(color: Colors.white),
-                ),
-                SizedBox(height: 10), // Adding some spacing between the two input lines
-                TextField(
-                  decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.white), // Set the border color
-                    ),
-                    focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.white), // Set the border color
-                    ),
-                  ),
-                  style: TextStyle(color: Colors.white),
-                ),
-                SizedBox(height: 5),
-                Text(
-                  'DESCRIPTION (OPTIONAL)',
-                  style: TextStyle(color: Colors.white),
-                ),
-                SizedBox(height: 50),
-
-                Container(
-                  padding: EdgeInsets.all(20),
-                  decoration: BoxDecoration(
-                    color: background,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      TextField(
-                        decoration: InputDecoration(
-                          enabledBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.white),
-                          ),
-                          focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.white),
-                          ),
-                        ),
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      SizedBox(height: 5),
-                      Text(
-                        'TERM (FRONT SIDE)',
-                        style: TextStyle(color: Colors.white),
-                      ),
-
-                      SizedBox(height: 10),
-
-                      TextField(
-                        decoration: InputDecoration(
-                          enabledBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.white), // Set the border color
-                          ),
-                          focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.white), // Set the border color
-                          ),
-                        ),
-                        style: TextStyle(color: Colors.white),
-                      ),
-
-                      SizedBox(height: 5),
-                      Text(
-                        'DEFINITION (BACK SIDE)',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 30),
-
-                Center(
-                  child: Container(
-                    width: 300,
-                    height: 50,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      color: orange, // Use the orange color from theme.dart
-                    ),
-                    child: TextButton(
-                      onPressed: () {},
-                      child: Text("ADD ANOTHER CARD",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 12,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-
+              ),
+              
+            ],
           ),
         ),
       ),

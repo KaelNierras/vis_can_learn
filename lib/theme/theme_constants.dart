@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
 const colorPrimary = Color(0xFF4D7C4B); // light blue in RGB
-const appBarBackground = Color(0xFF2e544a); // darker shade of light blue for appbar
+const appBarBackground = Color(0xFF4C8C7C); // darker shade of light blue for appbar
 const colorAccent = Color(0xFFE9C569); // darker shade of light blue for accent
 
 ThemeData lightTheme = ThemeData(
   brightness: Brightness.light,
-  primaryColor: appBarBackground,
+  primaryColor: colorPrimary,
   appBarTheme: const AppBarTheme(
-    color: colorPrimary, // Change this to your desired color
+    color: appBarBackground, // Change this to your desired color
     foregroundColor: Colors.white
   ),
   floatingActionButtonTheme: const FloatingActionButtonThemeData(
@@ -36,7 +36,7 @@ ThemeData lightTheme = ThemeData(
     fillColor: Colors.grey.withOpacity(0.1)
   ),
   cardTheme: CardTheme(
-    color: Colors.white,
+    color: appBarBackground,
     elevation: 0,
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(15),
