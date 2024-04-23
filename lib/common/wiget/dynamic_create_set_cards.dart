@@ -36,8 +36,6 @@ class _MyCardState extends State<MyCard> {
     });
   }
 
-  void doNothing() {}
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -97,6 +95,7 @@ class _MyCardState extends State<MyCard> {
             },
           ),
         ),
+        addVerticalSpace(30),
         SizedBox(
           width: MediaQuery.of(context).size.width,
           child: ElevatedButton(

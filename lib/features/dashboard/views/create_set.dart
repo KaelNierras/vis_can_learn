@@ -1,8 +1,7 @@
 // ignore_for_file: library_private_types_in_public_api
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:vis_can_learn/features/dashboard/views/dashboard_screen.dart';
 import 'package:vis_can_learn/theme/custom_colors.dart';
 import 'package:vis_can_learn/utils/widget_helper.dart';
 import 'package:vis_can_learn/common/wiget/input_text_secondary.dart';
@@ -41,6 +40,15 @@ class _CreateSetState extends State<CreateSet> {
     });
   }
 
+  void goToDashboard() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const Dashboard(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,7 +57,7 @@ class _CreateSetState extends State<CreateSet> {
           icon: const Icon(Icons.arrow_back),
           color: Colors.white,
           onPressed: () {
-            // Add back button functionality here
+            goToDashboard();
           },
         ),
         title: const Text(
@@ -71,10 +79,6 @@ class _CreateSetState extends State<CreateSet> {
         width: MediaQuery.of(context).size.width, // Set the width to 100%
         decoration: const BoxDecoration(
           color: background,
-          // image: DecorationImage(
-          //   image: AssetImage('assets/images/mountain_bg.png'),
-          //   fit: BoxFit.cover, // Adjust the image size
-          // ),
         ),
         child: Padding(
           padding: const EdgeInsets.all(30.0),
@@ -108,7 +112,6 @@ class _CreateSetState extends State<CreateSet> {
                   definitionControllers: definitionControllers,
                 ),
               ),
-              
             ],
           ),
         ),

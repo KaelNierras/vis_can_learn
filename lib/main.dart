@@ -51,7 +51,7 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       title: 'VisCanLearn',
       theme: lightTheme,
-      home: isViewed != 0 ? const OnboardingScreen() : isLogged != 0? const CreateSet(): const CreateSet(),
+      home: isViewed != 0 ? const OnboardingScreen() : isLogged != 0? const Dashboard(): const Dashboard(),
     );
   }
 }
