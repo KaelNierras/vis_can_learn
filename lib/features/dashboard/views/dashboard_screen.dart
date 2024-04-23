@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:vis_can_learn/features/dashboard/views/create_set.dart';
 import 'package:vis_can_learn/theme/custom_colors.dart';
 import 'package:vis_can_learn/utils/widget_helper.dart';
 
@@ -14,6 +15,24 @@ class Dashboard extends StatefulWidget {
 class _DashboardState extends State<Dashboard> {
   void Search() {
     print('Search');
+  }
+
+  void goToCreateSet() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const CreateSet(),
+      ),
+    );
+  }
+
+  void goToDashboard() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const Dashboard(),
+      ),
+    );
   }
 
   Map<String, int> data = {
@@ -181,31 +200,41 @@ class _DashboardState extends State<Dashboard> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  const Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.home,
-                        color: Colors.white,
-                      ),
-                      Text(
-                        'Home',
-                        style: TextStyle(color: Colors.white),
-                      )
-                    ],
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Colors.white, // Set the border color
-                        width: 2, // Set the border width
-                      ),
-                      shape: BoxShape.circle,
+                  GestureDetector(
+                    onTap: () => {
+                      goToDashboard(),
+                    },
+                    child: const Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.home,
+                          color: Colors.white,
+                        ),
+                        Text(
+                          'Home',
+                          style: TextStyle(color: Colors.white),
+                        )
+                      ],
                     ),
-                    child: const Icon(
-                      Icons.add_rounded,
-                      color: orange,
-                      size: 30,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                     goToCreateSet();
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.white, // Set the border color
+                          width: 2, // Set the border width
+                        ),
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Icon(
+                        Icons.add_rounded,
+                        color: orange,
+                        size: 30,
+                      ),
                     ),
                   ),
                   const Column(
