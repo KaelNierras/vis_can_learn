@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:vis_can_learn/features/dashboard/views/create_set.dart';
 import 'package:vis_can_learn/features/dashboard/views/dashboard_screen.dart';
 import 'package:vis_can_learn/theme/custom_colors.dart';
 import 'package:vis_can_learn/utils/widget_helper.dart';
@@ -31,6 +32,15 @@ class _LibraryScreenState extends State<LibraryScreen> {
       context,
       MaterialPageRoute(
         builder: (context) => const LibraryScreen(),
+      ),
+    );
+  }
+
+  void goToCreateSet() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const CreateSet(),
       ),
     );
   }
@@ -148,6 +158,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
                           children: [
                             SizedBox(
                               height: 40,
+                              width: MediaQuery.of(context).size.width - 210,
                               child: ElevatedButton(
                                 onPressed: Search,
                                 style: ButtonStyle(
@@ -202,7 +213,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
                         String key = entry.key;
                         int value = entry.value;
                         return Container(
-                          width: 330,
+                          width: MediaQuery.of(context).size.width - 70,
                           height: 90,
                           margin: const EdgeInsets.only(left: 30, bottom: 20),
                           decoration: BoxDecoration(
@@ -251,7 +262,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
                         String key = entry.key;
                         int value = entry.value;
                         return Container(
-                          width: 330,
+                          width: MediaQuery.of(context).size.width - 70,
                           height: 90,
                           margin: const EdgeInsets.only(left: 30, bottom: 20),
                           decoration: BoxDecoration(
@@ -317,7 +328,9 @@ class _LibraryScreenState extends State<LibraryScreen> {
                     ),
                   ),
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      goToCreateSet();
+                    },
                     child: Container(
                       decoration: BoxDecoration(
                         border: Border.all(

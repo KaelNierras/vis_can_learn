@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:vis_can_learn/features/dashboard/views/create_set.dart';
+import 'package:vis_can_learn/features/dashboard/views/library_screen.dart';
+import 'package:vis_can_learn/features/dashboard/views/search_screen.dart';
 import 'package:vis_can_learn/theme/custom_colors.dart';
 import 'package:vis_can_learn/utils/widget_helper.dart';
 
@@ -31,6 +33,24 @@ class _DashboardState extends State<Dashboard> {
       context,
       MaterialPageRoute(
         builder: (context) => const Dashboard(),
+      ),
+    );
+  }
+
+  void goToLibrary() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const LibraryScreen(),
+      ),
+    );
+  }
+
+  void goToSearch() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const SearchScreen(),
       ),
     );
   }
@@ -237,18 +257,23 @@ class _DashboardState extends State<Dashboard> {
                       ),
                     ),
                   ),
-                  const Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.folder,
-                        color: Colors.white,
-                      ),
-                      Text(
-                        'Library',
-                        style: TextStyle(color: Colors.white),
-                      )
-                    ],
+                  GestureDetector(
+                    onTap: () {
+                      goToLibrary();
+                    },
+                    child: const Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.folder,
+                          color: Colors.white,
+                        ),
+                        Text(
+                          'Library',
+                          style: TextStyle(color: Colors.white),
+                        )
+                      ],
+                    ),
                   ),
                 ],
               ),
