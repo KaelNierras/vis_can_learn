@@ -83,4 +83,5 @@ class DefaultFirebaseOptions {
     authDomain: 'viscanlearn.firebaseapp.com',
     storageBucket: 'viscanlearn.appspot.com',
   );
+
 }

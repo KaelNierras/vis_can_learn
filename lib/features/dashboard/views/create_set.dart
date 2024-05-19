@@ -6,6 +6,7 @@ import 'package:vis_can_learn/theme/custom_colors.dart';
 import 'package:vis_can_learn/utils/widget_helper.dart';
 import 'package:vis_can_learn/common/wiget/input_text_secondary.dart';
 import 'package:vis_can_learn/common/wiget/dynamic_create_set_cards.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CreateSet extends StatefulWidget {
   const CreateSet({super.key});
@@ -49,6 +50,16 @@ class _CreateSetState extends State<CreateSet> {
     );
   }
 
+final user = <String, dynamic>{
+  "first": "Ada",
+  "last": "Lovelace",
+  "born": 1815
+};
+
+void addSet() {
+  FirebaseFirestore.instance.collection('sets').doc('set1').set(user);
+}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,7 +81,7 @@ class _CreateSetState extends State<CreateSet> {
             icon: const Icon(Icons.check),
             color: Colors.white,
             onPressed: () {
-              // Add check button functionality here
+              addSet();
             },
           ),
         ],
