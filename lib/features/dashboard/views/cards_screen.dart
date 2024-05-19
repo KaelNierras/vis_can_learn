@@ -11,7 +11,6 @@ class CardsScreen extends StatefulWidget {
 }
 
 class _CardsScreenState extends State<CardsScreen> {
-
   void goBack() {
     Navigator.pop(context);
   }
@@ -24,7 +23,6 @@ class _CardsScreenState extends State<CardsScreen> {
       ),
     );
   }
-
 
   Map<String, int> data = {
     'Question 1': 1,
@@ -88,78 +86,188 @@ class _CardsScreenState extends State<CardsScreen> {
                           child: IconButton(
                             icon: const Icon(Icons.more_vert),
                             color: Colors.white,
-                            onPressed: () {
-                              
-                            },
+                            onPressed: () {},
                           ),
                         ),
                       ],
                     ),
-
                     addVerticalSpace(25),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 30),
-                        child: Column(
-                          children: [
-                            addVerticalSpace(20),
-                            SizedBox(
-                              height: 200,
-                              child: ListView.builder(
-                                scrollDirection: Axis.horizontal,
-                                itemCount: data.length,
-                                itemBuilder: (context, index) {
-                                  String key = data.keys.elementAt(index);
-                                  return Stack( // Use Stack to overlay the icon on top of the card
-                                    children: [
-                                      Container(
-                                        width: 300,
-                                        margin: const EdgeInsets.only(right: 20),
-                                        decoration: BoxDecoration(
-                                          color: accentGreen,
-                                          borderRadius: BorderRadius.circular(20),
-                                        ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(20),
-                                          child: Column(
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            crossAxisAlignment: CrossAxisAlignment.center,
-                                            children: [
-                                              Text(
-                                                key,
-                                                style: const TextStyle(
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 20,
-                                                ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 30),
+                      child: Column(
+                        children: [
+                          addVerticalSpace(20),
+                          SizedBox(
+                            height: 200,
+                            child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: data.length,
+                              itemBuilder: (context, index) {
+                                String key = data.keys.elementAt(index);
+                                return Stack(
+                                  // Use Stack to overlay the icon on top of the card
+                                  children: [
+                                    Container(
+                                      width: 300,
+                                      margin: const EdgeInsets.only(right: 20),
+                                      decoration: BoxDecoration(
+                                        color: accentGreen,
+                                        borderRadius: BorderRadius.circular(20),
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(20),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              key,
+                                              style: const TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 20,
                                               ),
-                                              addVerticalSpace(10),
-                                            ],
-                                          ),
+                                            ),
+                                            addVerticalSpace(10),
+                                          ],
                                         ),
                                       ),
-                                      Positioned( // Position the icon at the bottom right corner
-                                        left: 240,
-                                        bottom: 10,
-                                        right: 10,
-                                        child: IconButton(
-                                          icon: const Icon(Icons.fullscreen),
-                                          color: Colors.white,
-                                          onPressed: () {
-                                            goToCardFull();
-                                          },
-                                        ),
+                                    ),
+                                    Positioned(
+                                      // Position the icon at the bottom right corner
+                                      left: 240,
+                                      bottom: 10,
+                                      right: 10,
+                                      child: IconButton(
+                                        icon: const Icon(Icons.fullscreen),
+                                        color: Colors.white,
+                                        onPressed: () {
+                                          goToCardFull();
+                                        },
                                       ),
-                                    ],
-                                  );
-                                },
-                              ),
-                            )
-                          ],
-                        ),
+                                    ),
+                                  ],
+                                );
+                              },
+                            ),
+                          )
+                        ],
                       ),
                     ),
-
+                    addVerticalSpace(30),
+                    Expanded(
+                        child: Padding(
+                      padding: const EdgeInsets.only(left: 30, right: 30),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                            const Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text('Kyle Anthony Nierras',style: TextStyle(color: Colors.white),),
+                              Text('  | ',style: TextStyle(color: Colors.white),),
+                              Text(
+                              '42 terms',
+                              style: TextStyle(color: Colors.white),
+                              textAlign: TextAlign.left,
+                              ),
+                            ],
+                            ),
+                          addVerticalSpace(30),
+                          SizedBox(
+                            width: double.infinity,
+                            height: 60,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                // Add button onPressed logic here
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: accentGreen,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 12,
+                                  horizontal: 24,
+                                ),
+                              ),
+                              child:  Row(
+                                children: [
+                                  Image.asset(
+                                    'assets/images/exam.png',
+                                    width: 20,
+                                    height: 20,
+                                  ),
+                                  addHorizontalSpace(20),
+                                  const Text(
+                                    'Test',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          addVerticalSpace(30),
+                          const Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Cards',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w900,
+                                ),
+                              ),
+                              Icon(Icons.sort, color: Colors.white),
+                            ],
+                          ),
+                          addVerticalSpace(20),
+                          Expanded(
+                            child: ListView.builder(
+                              itemCount: data.length,
+                              itemBuilder: (context, index) {
+                                String key = data.keys.elementAt(index);
+                                int value = data.values.elementAt(index);
+                                return Container(
+                                  margin: const EdgeInsets.only(bottom: 20),
+                                  decoration: BoxDecoration(
+                                    color: accentGreen, // Change this to your desired color
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  child: ListTile(
+                                    title: Text(
+                                      key,
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                    subtitle: Text(
+                                      'Description: $value',
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                    tileColor: accentGreen,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          )
+                        ],
+                      ),
+                    )),
                   ],
                 ),
               ),

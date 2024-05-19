@@ -72,6 +72,7 @@ flutter:
     - assets/images/mountain_bg.png
     - assets/images/google_icon.png
     - assets/images/VisCanLearnLogo.png
+    - assets/images/exam.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
