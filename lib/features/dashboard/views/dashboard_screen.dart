@@ -1,9 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:vis_can_learn/features/dashboard/views/create_set.dart';
 import 'package:vis_can_learn/features/dashboard/views/library_screen.dart';
 import 'package:vis_can_learn/features/dashboard/views/search_screen.dart';
+import 'package:vis_can_learn/features/dashboard/views/cards_screen.dart';
 import 'package:vis_can_learn/theme/custom_colors.dart';
 import 'package:vis_can_learn/utils/widget_helper.dart';
 
@@ -15,9 +14,6 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
-  void Search() {
-    print('Search');
-  }
 
   void goToCreateSet() {
     Navigator.push(
@@ -27,6 +23,7 @@ class _DashboardState extends State<Dashboard> {
       ),
     );
   }
+
 
   void goToDashboard() {
     Navigator.push(
@@ -51,6 +48,15 @@ class _DashboardState extends State<Dashboard> {
       context,
       MaterialPageRoute(
         builder: (context) => const SearchScreen(),
+      ),
+    );
+  }
+
+  void goToCardScreen() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const CardsScreen(),
       ),
     );
   }
@@ -108,7 +114,7 @@ class _DashboardState extends State<Dashboard> {
                         SizedBox(
                           height: 45,
                           child: ElevatedButton(
-                            onPressed: Search,
+                            onPressed: goToSearch,
                             style: ButtonStyle(
                               backgroundColor:
                                   MaterialStateProperty.all(lightGreen),
@@ -147,23 +153,31 @@ class _DashboardState extends State<Dashboard> {
                 padding: const EdgeInsets.symmetric(horizontal: 30),
                 child: Column(
                   children: [
-                    const Row(
+                    Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
+                        const Text(
                           'Sets',
                           style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
                               fontSize: 20),
                         ),
-                        Text(
-                          'View All',
-                          style: TextStyle(
+                        GestureDetector(
+                          onTap: () {
+                            // Handle your tap event here
+                            //print('View All clicked');
+                            goToLibrary();
+                          },
+                          child: const Text(
+                            'View All',
+                            style: TextStyle(
                               color: orange,
                               fontWeight: FontWeight.bold,
-                              fontSize: 15),
-                        ),
+                              fontSize: 15,
+                            ),
+                          ),
+                        )
                       ],
                     ),
                     addVerticalSpace(20),
@@ -174,29 +188,36 @@ class _DashboardState extends State<Dashboard> {
                         itemCount: data.length,
                         itemBuilder: (context, index) {
                           String key = data.keys.elementAt(index);
-                          return Container(
-                            width: 250,
-                            margin: const EdgeInsets.only(right: 20),
-                            decoration: BoxDecoration(
-                              color: accentGreen,
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(20),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(key,
-                                      style: const TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 20)),
-                                  addVerticalSpace(10),
-                                  Text('${data[key]} Terms',
-                                      style:
-                                          const TextStyle(color: Colors.white)),
-                                ],
+                          return GestureDetector(
+                            onTap: () {
+                              // Handle your tap event here
+                              //print('Card $key clicked');
+                              goToCardScreen();
+
+                            },
+                            child: Container(
+                              width: 250,
+                              margin: const EdgeInsets.only(right: 20),
+                              decoration: BoxDecoration(
+                                color: accentGreen,
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(20),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(key,
+                                        style: const TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20)),
+                                    addVerticalSpace(10),
+                                    Text('${data[key]} Terms',
+                                        style: const TextStyle(color: Colors.white)),
+                                  ],
+                                ),
                               ),
                             ),
                           );

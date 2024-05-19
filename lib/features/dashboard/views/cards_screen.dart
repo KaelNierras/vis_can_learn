@@ -1,5 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:vis_can_learn/features/dashboard/views/full_card_view.dart';
 import 'package:vis_can_learn/theme/custom_colors.dart';
 import 'package:vis_can_learn/utils/widget_helper.dart';
 
@@ -11,6 +11,21 @@ class CardsScreen extends StatefulWidget {
 }
 
 class _CardsScreenState extends State<CardsScreen> {
+
+  void goBack() {
+    Navigator.pop(context);
+  }
+
+  void goToCardFull() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const FullCardView(),
+      ),
+    );
+  }
+
+
   Map<String, int> data = {
     'Question 1': 1,
     'Question 2': 2,
@@ -37,7 +52,7 @@ class _CardsScreenState extends State<CardsScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
-              child: Container(
+              child: SizedBox(
                 width: MediaQuery.of(context).size.width,
                 child: Column(
                   children: [
@@ -46,17 +61,17 @@ class _CardsScreenState extends State<CardsScreen> {
                         Padding(
                           padding: const EdgeInsets.only(top: 20, left: 20),
                           child: IconButton(
-                            icon: Icon(Icons.arrow_back),
+                            icon: const Icon(Icons.arrow_back),
                             color: Colors.white,
                             onPressed: () {
-                              // Add functionality for the back button here
+                              goBack();
                             },
                           ),
                         ),
-                        Expanded(
+                        const Expanded(
                           child: Center(
                             child: Padding(
-                              padding: const EdgeInsets.only(left: 20, top: 20),
+                              padding: EdgeInsets.only(left: 20, top: 20),
                               child: Text(
                                 'VSUCAT Reviewer',
                                 style: TextStyle(
@@ -71,10 +86,10 @@ class _CardsScreenState extends State<CardsScreen> {
                         Padding(
                           padding: const EdgeInsets.only(top: 20, right: 20),
                           child: IconButton(
-                            icon: Icon(Icons.more_vert),
+                            icon: const Icon(Icons.more_vert),
                             color: Colors.white,
                             onPressed: () {
-                              // Add functionality for the back button here
+                              
                             },
                           ),
                         ),
@@ -128,10 +143,10 @@ class _CardsScreenState extends State<CardsScreen> {
                                         bottom: 10,
                                         right: 10,
                                         child: IconButton(
-                                          icon: Icon(Icons.fullscreen),
+                                          icon: const Icon(Icons.fullscreen),
                                           color: Colors.white,
                                           onPressed: () {
-                                            // Add functionality for fullscreen here
+                                            goToCardFull();
                                           },
                                         ),
                                       ),

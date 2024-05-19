@@ -2,13 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:vis_can_learn/theme/custom_colors.dart';
 
 class FullCardView extends StatefulWidget {
-  const FullCardView({Key? key}) : super(key: key);
+  const FullCardView({super.key});
 
   @override
   State<FullCardView> createState() => _FullCardViewState();
+
+
+   
 }
 
 class _FullCardViewState extends State<FullCardView> {
+  void goBack() {
+    Navigator.pop(context);
+  }
+  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,15 +35,15 @@ class _FullCardViewState extends State<FullCardView> {
                 Padding(
                   padding: const EdgeInsets.only(top: 20, left: 20),
                   child: IconButton(
-                    icon: Icon(Icons.close),
+                    icon: const Icon(Icons.close),
                     color: Colors.white,
                     onPressed: () {
-                      // Add functionality for the close button here
+                      goBack();
                     },
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 24, right: 230),
+                const Padding(
+                  padding: EdgeInsets.only(top: 24, right: 230),
                   child: Text(
                     '2/10',
                     style: TextStyle(
@@ -56,7 +64,7 @@ class _FullCardViewState extends State<FullCardView> {
                     color: accentGreen,
                     borderRadius: BorderRadius.circular(20),
                   ),
-                  child: Center(
+                  child: const Center(
                     child: Text(
                       'Question 2',
                       style: TextStyle(

@@ -77,15 +77,15 @@ class _LibraryScreenState extends State<LibraryScreen> {
             ),
             addVerticalSpace(25),
             Expanded(
-              child: Container(
+              child: SizedBox(
                 width: MediaQuery.of(context).size.width,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 30.0),
-                      child: const Text(
+                    const Padding(
+                      padding: EdgeInsets.only(left: 30.0),
+                      child: Text(
                         "Library",
                         style: TextStyle(
                           color: Colors.white,
@@ -94,10 +94,10 @@ class _LibraryScreenState extends State<LibraryScreen> {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 20.0),
+                    const Padding(
+                      padding: EdgeInsets.only(top: 20.0),
                       child: Center(
-                        child: const Text(
+                        child: Text(
                           "Study Sets",
                           style: TextStyle(
                             color: Colors.white,
@@ -107,7 +107,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
                         ),
                       ),
                     ),
-                    Divider(
+                    const Divider(
                       indent: 30,
                       endIndent: 30,
                       color: lightGreen,
@@ -116,7 +116,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
 
                     Row(
                       children: [
-                        SizedBox(width: 30),
+                        const SizedBox(width: 30),
 
                         Container(
                           decoration: BoxDecoration(
@@ -134,14 +134,14 @@ class _LibraryScreenState extends State<LibraryScreen> {
                               });
                             },
                             dropdownColor: Colors.grey[800], // Set the background color of the dropdown menu
-                            style: TextStyle(color: Colors.white), // Set the text color of the dropdown button
-                            icon: Icon(Icons.arrow_drop_down, color: Colors.white), // Set the color of the dropdown icon
+                            style: const TextStyle(color: Colors.white), // Set the text color of the dropdown button
+                            icon: const Icon(Icons.arrow_drop_down, color: Colors.white), // Set the color of the dropdown icon
                             items: <String>['All', 'In Progress', 'Today'].map<DropdownMenuItem<String>>((String value) {
                               return DropdownMenuItem<String>(
                                 value: value,
                                 child: Text(
                                   value,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     color: Colors.white, // Set the text color of the dropdown choices
                                     fontSize: 10,
                                     fontWeight: FontWeight.w500,
@@ -152,42 +152,30 @@ class _LibraryScreenState extends State<LibraryScreen> {
                           ),
                         ),
 
-                        SizedBox(width: 70),
+                        const SizedBox(width: 70),
 
                         Column(
                           children: [
                             SizedBox(
                               height: 40,
                               width: MediaQuery.of(context).size.width - 210,
-                              child: ElevatedButton(
-                                onPressed: Search,
-                                style: ButtonStyle(
-                                  backgroundColor:
-                                      MaterialStateProperty.all(lightGreen),
-                                  side: MaterialStateProperty.all(
-                                      const BorderSide(
-                                          color: Colors.white, width: 1.5)),
-                                  shape: MaterialStateProperty.all(
-                                      RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(
-                                        15), // Set the border radius here
-                                  )),
+                              child: TextField(
+                                style: const TextStyle(color: Color.fromARGB(244, 218, 218, 218), fontSize: 12),
+                                decoration: InputDecoration(
+                                  prefixIcon: const Icon(Icons.search, color: Colors.white),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                    borderSide: const BorderSide(color: Colors.white, width: 1.5),
+                                  ),
+                                  filled: true,
+                                  fillColor: lightGreen,
+                                  hintText: 'Search Sets...',
+                                  hintStyle: const TextStyle(color: Color.fromARGB(244, 218, 218, 218), fontSize: 12),
                                 ),
-                                child: const Row(
-                                  children: [
-                                    Icon(
-                                      Icons.search,
-                                    ),
-                                    Text(
-                                      'Search Sets...',
-                                      style: TextStyle(
-                                        color:
-                                            Color.fromARGB(244, 218, 218, 218),
-                                        fontSize: 12,
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                onSubmitted: (value) {
+                                  // Call your search function here
+                                  // Search(value);
+                                },
                               ),
                             )
                           ],
@@ -195,9 +183,9 @@ class _LibraryScreenState extends State<LibraryScreen> {
                       ],
                     ),
 
-                    Padding(
-                      padding: const EdgeInsets.only(left: 30.0, top: 20, bottom: 20),
-                      child: const Text(
+                    const Padding(
+                      padding: EdgeInsets.only(left: 30.0, top: 20, bottom: 20),
+                      child: Text(
                         "In progress",
                         style: TextStyle(
                           color: orange,
@@ -244,9 +232,9 @@ class _LibraryScreenState extends State<LibraryScreen> {
                       }).toList(),
                     ),
 
-                    Padding(
-                      padding: const EdgeInsets.only(left: 30.0, bottom: 20),
-                      child: const Text(
+                    const Padding(
+                      padding: EdgeInsets.only(left: 30.0, bottom: 20),
+                      child: Text(
                         "Today",
                         style: TextStyle(
                           color: orange,

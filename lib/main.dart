@@ -3,11 +3,11 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:vis_can_learn/features/dashboard/views/cards_screen.dart';
 import 'package:vis_can_learn/features/dashboard/views/create_set.dart';
-import 'package:vis_can_learn/features/dashboard/views/email_verification.dart';
-import 'package:vis_can_learn/features/dashboard/views/forgot_password.dart';
+import 'package:vis_can_learn/features/authentication/views/email_verification.dart';
+import 'package:vis_can_learn/features/authentication/views/forgot_password.dart';
 import 'package:vis_can_learn/features/dashboard/views/full_card_view.dart';
 import 'package:vis_can_learn/features/dashboard/views/library_screen.dart';
-import 'package:vis_can_learn/features/dashboard/views/reset_password.dart';
+import 'package:vis_can_learn/features/authentication/views/reset_password.dart';
 import 'package:vis_can_learn/features/dashboard/views/search_screen.dart';
 
 import 'firebase_options.dart';
@@ -19,7 +19,7 @@ import 'package:vis_can_learn/features/dashboard/views/dashboard_screen.dart';
 
 //Screens
 //import 'features/dashboard/views/dashboard_screen.dart';
-import 'features/login/views/login_screen.dart';
+import 'features/authentication/views/login_screen.dart';
 import 'features/onboarding/views/onboarding_screen.dart';
 import 'theme/theme_constants.dart';
 
@@ -58,7 +58,7 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       title: 'VisCanLearn',
       theme: lightTheme,
-      home: isViewed != 0 ? const OnboardingScreen() : isLogged != 0? const ResetPassword(): const ResetPassword(),
+      home: isViewed != 0 ? const OnboardingScreen() : isLogged != 0? const Dashboard(): const Dashboard(),
     );
   }
 }
