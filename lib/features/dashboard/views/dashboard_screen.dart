@@ -5,6 +5,8 @@ import 'package:vis_can_learn/features/dashboard/views/search_screen.dart';
 import 'package:vis_can_learn/features/dashboard/views/cards_screen.dart';
 import 'package:vis_can_learn/theme/custom_colors.dart';
 import 'package:vis_can_learn/utils/widget_helper.dart';
+import 'package:vis_can_learn/features/dashboard/models/set_model.dart';
+import 'package:vis_can_learn/features/dashboard/controllers/dashboard_controller.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
@@ -14,6 +16,13 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
+
+
+  @override
+  void initState() {
+    super.initState();
+    fetchReviewers();
+  }
 
   void goToCreateSet() {
     Navigator.push(
@@ -52,21 +61,27 @@ class _DashboardState extends State<Dashboard> {
     );
   }
 
-  void goToCardScreen() {
+  void goToCardScreen(String setId, String title) {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => const CardsScreen(),
+        builder: (context) => CardsScreen(setId: setId, title: title,),
       ),
     );
   }
 
-  Map<String, int> data = {
-    'VSU Reviewer': 256,
-    'Another Reviewer': 100,
-    'Third Reviewer': 50,
-    // Add more entries as needed
-  };
+  Map<String, dynamic> data = {};
+  
+
+  void fetchReviewers() async {
+    List<Sets> reviewers = await getReviewers();
+    setState(() {
+      data = {for (var reviewer in reviewers) reviewer.name: {'count': reviewer.count, 'id': reviewer.id}};
+      print(data);
+    });
+  }
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -192,7 +207,7 @@ class _DashboardState extends State<Dashboard> {
                             onTap: () {
                               // Handle your tap event here
                               //print('Card $key clicked');
-                              goToCardScreen();
+                              goToCardScreen(data[key]['id'],key.toString());
 
                             },
                             child: Container(
@@ -214,8 +229,18 @@ class _DashboardState extends State<Dashboard> {
                                             fontWeight: FontWeight.bold,
                                             fontSize: 20)),
                                     addVerticalSpace(10),
-                                    Text('${data[key]} Terms',
-                                        style: const TextStyle(color: Colors.white)),
+                                    if (data[key] == 1)
+                                      Text('${data[key]['count']} term',
+                                          style: const TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 15))
+                                    else
+                                      Text('${data[key]['count']} terms',
+                                          style: const TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 15))
                                   ],
                                 ),
                               ),

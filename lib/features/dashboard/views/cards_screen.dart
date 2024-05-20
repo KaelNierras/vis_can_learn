@@ -1,16 +1,27 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:vis_can_learn/features/dashboard/views/full_card_view.dart';
 import 'package:vis_can_learn/theme/custom_colors.dart';
 import 'package:vis_can_learn/utils/widget_helper.dart';
 
 class CardsScreen extends StatefulWidget {
-  const CardsScreen({super.key});
+ final String setId; 
+ final String title;
+
+  const CardsScreen({super.key, required this.setId, required this.title}); 
 
   @override
   State<CardsScreen> createState() => _CardsScreenState();
 }
 
 class _CardsScreenState extends State<CardsScreen> {
+
+  @override
+  initState() {
+    super.initState();
+    getData(widget.setId);
+  }
+
   void goBack() {
     Navigator.pop(context);
   }
@@ -24,18 +35,33 @@ class _CardsScreenState extends State<CardsScreen> {
     );
   }
 
-  Map<String, int> data = {
-    'Question 1': 1,
-    'Question 2': 2,
-    'Question 3': 3,
-    'Question 4': 4,
-    'Question 5': 5,
-    'Question 6': 6,
-    'Question 7': 7,
-    'Question 8': 8,
-    'Question 9': 9,
-    // Add more entries as needed
-  };
+  Map<String, String> data = {};
+
+  String description = "";
+
+Future<void> getData(String setId) async {
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+  CollectionReference<Map<String, dynamic>> collectionRef =
+      firestore.collection('sets');
+  print(collectionRef);
+  print(setId);
+  QuerySnapshot<Map<String, dynamic>> querySnapshot =
+      await collectionRef.where('set_id', isEqualTo: setId).get();
+
+  if (querySnapshot.docs.isNotEmpty) {
+    Map<String, dynamic> setData = querySnapshot.docs.first.data();
+    List<dynamic> setArray = setData['set_array'];
+    setState(() {
+      data.clear();
+      for (var i = 0; i < setArray.length; i++) {
+        data[setArray[i]['term']] = setArray[i]['definition'];
+      }
+      description = setData['set_description'];
+    });
+  } else {
+    throw Exception("No such document.");
+  }
+}
 
   @override
   Widget build(BuildContext context) {
@@ -66,13 +92,13 @@ class _CardsScreenState extends State<CardsScreen> {
                             },
                           ),
                         ),
-                        const Expanded(
+                        Expanded(
                           child: Center(
                             child: Padding(
-                              padding: EdgeInsets.only(left: 20, top: 20),
+                              padding: const EdgeInsets.only(left: 20, top: 20),
                               child: Text(
-                                'VSUCAT Reviewer',
-                                style: TextStyle(
+                                widget.title,
+                                style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 22,
                                   fontWeight: FontWeight.w500,
@@ -163,18 +189,24 @@ class _CardsScreenState extends State<CardsScreen> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                            const Row(
+                          Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              Text('Kyle Anthony Nierras',style: TextStyle(color: Colors.white),),
-                              Text('  | ',style: TextStyle(color: Colors.white),),
                               Text(
-                              '42 terms',
-                              style: TextStyle(color: Colors.white),
-                              textAlign: TextAlign.left,
+                                description,
+                                style: const TextStyle(color: Colors.white),
+                              ),
+                              const Text(
+                                '  | ',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              Text(
+                                "${data.length} terms",
+                                style: const TextStyle(color: Colors.white),
+                                textAlign: TextAlign.left,
                               ),
                             ],
-                            ),
+                          ),
                           addVerticalSpace(30),
                           SizedBox(
                             width: double.infinity,
@@ -193,7 +225,7 @@ class _CardsScreenState extends State<CardsScreen> {
                                   horizontal: 24,
                                 ),
                               ),
-                              child:  Row(
+                              child: Row(
                                 children: [
                                   Image.asset(
                                     'assets/images/exam.png',
@@ -233,11 +265,12 @@ class _CardsScreenState extends State<CardsScreen> {
                               itemCount: data.length,
                               itemBuilder: (context, index) {
                                 String key = data.keys.elementAt(index);
-                                int value = data.values.elementAt(index);
+                                String value = data.values.elementAt(index);
                                 return Container(
                                   margin: const EdgeInsets.only(bottom: 20),
                                   decoration: BoxDecoration(
-                                    color: accentGreen, // Change this to your desired color
+                                    color:
+                                        accentGreen, // Change this to your desired color
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                   child: ListTile(

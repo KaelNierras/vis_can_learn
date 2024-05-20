@@ -7,6 +7,7 @@ import 'package:vis_can_learn/utils/widget_helper.dart';
 import 'package:vis_can_learn/common/wiget/input_text_secondary.dart';
 import 'package:vis_can_learn/common/wiget/dynamic_create_set_cards.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:math';
 
 class CreateSet extends StatefulWidget {
   const CreateSet({super.key});
@@ -50,15 +51,44 @@ class _CreateSetState extends State<CreateSet> {
     );
   }
 
-final user = <String, dynamic>{
-  "first": "Ada",
-  "last": "Lovelace",
-  "born": 1815
-};
+  final user = <String, dynamic>{
+    "first": "Ada",
+    "last": "Lovelace",
+    "born": 1815
+  };
 
-void addSet() {
-  FirebaseFirestore.instance.collection('sets').doc('set1').set(user);
-}
+  String generateRandomString(int length) {
+    const allowedChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    final random = Random();
+
+    return List.generate(length, (index) {
+      return allowedChars[random.nextInt(allowedChars.length)];
+    }).join();
+  }
+
+  void addSet() {
+    List<Map<String, String>> cards = [];
+
+    for (var i = 0; i < items.length; i++) {
+      cards.add({
+        'term': frontSideControllers[i].text,
+        'definition': definitionControllers[i].text,
+      });
+    }
+
+    // Generate a random alphanumeric string of length 5
+    String setId = generateRandomString(10);
+
+    Map<String, dynamic> set = {
+      'set_id': setId,
+      'set_name': setText.text,
+      'set_description': description.text,
+      'set_array': cards,
+    };
+
+    FirebaseFirestore.instance.collection('sets').add(set);
+    goToDashboard();
+  }
 
   @override
   Widget build(BuildContext context) {
