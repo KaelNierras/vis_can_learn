@@ -1,4 +1,6 @@
 // ignore_for_file: library_private_types_in_public_api
+import 'dart:html';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:vis_can_learn/features/dashboard/views/cards_screen.dart';
@@ -9,6 +11,7 @@ import 'package:vis_can_learn/features/dashboard/views/full_card_view.dart';
 import 'package:vis_can_learn/features/dashboard/views/library_screen.dart';
 import 'package:vis_can_learn/features/authentication/views/reset_password.dart';
 import 'package:vis_can_learn/features/dashboard/views/search_screen.dart';
+import 'package:vis_can_learn/features/ingame/views/ingame.dart';
 
 import 'firebase_options.dart';
 
