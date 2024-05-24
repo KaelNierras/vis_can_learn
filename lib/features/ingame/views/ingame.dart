@@ -48,6 +48,9 @@ class _InGameState extends State<InGame> {
     },
   ];
 
+  // Define a list to store selected choices for each question
+  List<String> selectedChoices = [];
+
   // Define a PageController
   final PageController _pageController = PageController();
 
@@ -104,7 +107,7 @@ class _InGameState extends State<InGame> {
                     _currentPage = index;
                   });
                 },
-                
+
                 itemBuilder: (context, index) {
                   // Extract the question and choices from the map
                   String question = quizData[index].keys.first;
@@ -144,6 +147,15 @@ class _InGameState extends State<InGame> {
                                       width: MediaQuery.of(context).size.width,
                                       child: ElevatedButton(
                                         onPressed: () {
+                                          // Add or remove the choice based on its presence in selectedChoices
+                                          if (selectedChoices
+                                              .contains(choice)) {
+                                            selectedChoices.remove(choice);
+                                          } else {
+                                            selectedChoices.clear();
+                                            selectedChoices.add(choice);
+                                          }
+
                                           // Navigate to the next page
                                           setState(() {
                                             _currentPage = index;
@@ -156,6 +168,18 @@ class _InGameState extends State<InGame> {
                                                 .ease, // Optionally, set the curve for the animation
                                           );
                                         },
+                                        style: ButtonStyle(
+                                          backgroundColor: MaterialStateProperty
+                                              .resolveWith<Color>(
+                                                  (Set<MaterialState> states) {
+                                            if (selectedChoices
+                                                .contains(choice)) {
+                                              return lightGreen; // Change to your desired color for selected choice
+                                            } else {
+                                              return orange; // Change to your default button color
+                                            }
+                                          }),
+                                        ),
                                         child: Text(choice),
                                       ),
                                     ),
