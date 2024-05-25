@@ -30,17 +30,17 @@ class _EmailVerificationState extends State<EmailVerification> {
                 Padding(
                   padding: const EdgeInsets.only(top: 20, left: 20),
                   child: IconButton(
-                    icon: Icon(Icons.arrow_back),
+                    icon: const Icon(Icons.arrow_back),
                     color: Colors.white,
                     onPressed: () {
                       // Add functionality for the back button here
                     },
                   ),
                 ),
-                Expanded(
+                const Expanded(
                   child: Center(
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 20, top: 20, right: 69),
+                      padding: EdgeInsets.only(left: 20, top: 20, right: 69),
                       child: Text(
                         'Email Verification',
                         style: TextStyle(
@@ -54,10 +54,10 @@ class _EmailVerificationState extends State<EmailVerification> {
                 ),
               ],
             ),
-            Center(
+            const Center(
               child: Padding(
-                padding: const EdgeInsets.only(top: 100),
-                child: const Text(
+                padding: EdgeInsets.only(top: 100),
+                child: Text(
                   "Get Your Code",
                   style: TextStyle(
                     color: Colors.white,
@@ -67,9 +67,9 @@ class _EmailVerificationState extends State<EmailVerification> {
                 ),
               ),
             ),
-            Center(
+            const Center(
               child: Padding(
-                padding: const EdgeInsets.only(top: 20),
+                padding: EdgeInsets.only(top: 20),
                 child: Text(
                   "Please enter the 4-digit code sent to your \nemail address.",
                   textAlign: TextAlign.center,
@@ -99,7 +99,7 @@ class _EmailVerificationState extends State<EmailVerification> {
                         child: Center(
                           child: Text(
                             numbers[index].toString(), // Number in the box
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: background, // Text color
                               fontSize: 30,
                               fontWeight: FontWeight.bold,
@@ -120,7 +120,7 @@ class _EmailVerificationState extends State<EmailVerification> {
                   textAlign: TextAlign.center,
                   text: TextSpan(
                     text: "Didn't resend code? ",
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: 14,
                       fontWeight: FontWeight.w200,
@@ -128,7 +128,7 @@ class _EmailVerificationState extends State<EmailVerification> {
                     children: <TextSpan>[
                       TextSpan(
                         text: "Resend.",
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Colors.white, // Color for the clickable text
                           fontWeight: FontWeight.bold,
                         ),

@@ -31,17 +31,17 @@ class _ResetPasswordState extends State<ResetPassword> {
                 Padding(
                   padding: const EdgeInsets.only(top: 20, left: 20),
                   child: IconButton(
-                    icon: Icon(Icons.arrow_back),
+                    icon: const Icon(Icons.arrow_back),
                     color: Colors.white,
                     onPressed: () {
                       // Add functionality for the back button here
                     },
                   ),
                 ),
-                Expanded(
+                const Expanded(
                   child: Center(
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 20, top: 20, right: 69),
+                      padding: EdgeInsets.only(left: 20, top: 20, right: 69),
                       child: Text(
                         'Reset Password',
                         style: TextStyle(
@@ -56,10 +56,10 @@ class _ResetPasswordState extends State<ResetPassword> {
               ],
             ),
 
-            Center(
+            const Center(
               child: Padding(
-                padding: const EdgeInsets.only(top: 100),
-                child: const Text(
+                padding: EdgeInsets.only(top: 100),
+                child: Text(
                   "Enter New Password",
                   style: TextStyle(
                     color: Colors.white,
@@ -70,9 +70,9 @@ class _ResetPasswordState extends State<ResetPassword> {
               ),
             ),
 
-            Center(
+            const Center(
               child: Padding(
-                padding: const EdgeInsets.only(top: 20),
+                padding: EdgeInsets.only(top: 20),
                 child: Text(
                   "Your new password must be different from \n your previous password.",
                   textAlign: TextAlign.center,

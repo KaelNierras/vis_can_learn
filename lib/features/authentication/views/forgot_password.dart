@@ -31,17 +31,17 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 Padding(
                   padding: const EdgeInsets.only(top: 20, left: 20),
                   child: IconButton(
-                    icon: Icon(Icons.arrow_back),
+                    icon: const Icon(Icons.arrow_back),
                     color: Colors.white,
                     onPressed: () {
                       // Add functionality for the back button here
                     },
                   ),
                 ),
-                Expanded(
+                const Expanded(
                   child: Center(
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 20, top: 20, right: 69),
+                      padding: EdgeInsets.only(left: 20, top: 20, right: 69),
                       child: Text(
                         'Forgot Password',
                         style: TextStyle(
@@ -56,10 +56,10 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               ],
             ),
 
-            Center(
+            const Center(
               child: Padding(
-                padding: const EdgeInsets.only(top: 100),
-                child: const Text(
+                padding: EdgeInsets.only(top: 100),
+                child: Text(
                   "Mail Address Here",
                   style: TextStyle(
                     color: Colors.white,
@@ -70,9 +70,9 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               ),
             ),
 
-            Center(
+            const Center(
               child: Padding(
-                padding: const EdgeInsets.only(top: 20),
+                padding: EdgeInsets.only(top: 20),
                 child: Text(
                   "Enter the email address associated with \n your account.",
                   textAlign: TextAlign.center,
@@ -121,7 +121,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   textAlign: TextAlign.center,
                   text: TextSpan(
                     text: "Already have an account? ",
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: 14,
                       fontWeight: FontWeight.w200,
@@ -129,7 +129,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     children: <TextSpan>[
                       TextSpan(
                         text: "Log In.",
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Colors.white, // Color for the clickable text
                           fontWeight: FontWeight.bold,
                         ),

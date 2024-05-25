@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:async';
+import 'package:vis_can_learn/features/authentication/views/login_screen.dart';
 
 
 //Use the following import to have access to the onboarding_contents.dart file
-import '../../../utils/size_config.dart';
-import '../controllers/onboard_contents.dart';
+import 'package:vis_can_learn/utils/size_config.dart';
+import 'package:vis_can_learn/features/onboarding/controllers/onboard_contents.dart';
 
-//Screens
-import '../../dashboard/views/dashboard_screen.dart';
+
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -60,11 +58,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     await prefs.setInt('onboard', isViewed);
   }
 
-  void gotoDashboard() {
+  void goToLogin() {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (context) => const Dashboard(),
+        builder: (context) => const Login(),
       ),
     );
   }
@@ -141,7 +139,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           child: ElevatedButton(
                             onPressed: () async {
                               await _storeOnboardInfo();
-                              gotoDashboard();
+                              goToLogin();
                             },
                             child: const Row(
                               mainAxisAlignment: MainAxisAlignment.center,

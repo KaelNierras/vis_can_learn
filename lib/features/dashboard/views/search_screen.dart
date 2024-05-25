@@ -3,7 +3,6 @@ import 'package:vis_can_learn/features/dashboard/views/create_set.dart';
 import 'package:vis_can_learn/features/dashboard/views/dashboard_screen.dart';
 import 'package:vis_can_learn/features/dashboard/views/library_screen.dart';
 import 'package:vis_can_learn/theme/custom_colors.dart';
-import 'package:vis_can_learn/utils/widget_helper.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -13,10 +12,6 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
-  void Search() {
-    print('Search');
-  }
-
   void goToDashboard() {
     Navigator.push(
       context,

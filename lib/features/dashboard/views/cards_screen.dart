@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:vis_can_learn/features/dashboard/views/full_card_view.dart';
+import 'package:vis_can_learn/features/dashboard/views/dashboard_screen.dart';
 import 'package:vis_can_learn/features/ingame/views/ingame.dart';
 import 'package:vis_can_learn/theme/custom_colors.dart';
 import 'package:vis_can_learn/utils/widget_helper.dart';
@@ -25,15 +23,20 @@ class _CardsScreenState extends State<CardsScreen> {
     getData(widget.setId);
   }
 
-  void goBack() {
-    Navigator.pop(context);
+  void goToDashboard() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const Dashboard(),
+      ),
+    );
   }
 
   void goToTestMode() {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => const InGame(),
+        builder: (context) => InGame(setId: widget.setId, title: widget.title),
       ),
     );
   }
@@ -46,8 +49,6 @@ class _CardsScreenState extends State<CardsScreen> {
     FirebaseFirestore firestore = FirebaseFirestore.instance;
     CollectionReference<Map<String, dynamic>> collectionRef =
         firestore.collection('sets');
-    print(collectionRef);
-    print(setId);
     QuerySnapshot<Map<String, dynamic>> querySnapshot =
         await collectionRef.where('set_id', isEqualTo: setId).get();
 
@@ -74,55 +75,54 @@ class _CardsScreenState extends State<CardsScreen> {
         decoration: const BoxDecoration(
           color: background,
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 20, left: 20),
-                        child: IconButton(
-                          icon: const Icon(Icons.arrow_back),
-                          color: Colors.white,
-                          onPressed: () {
-                            goBack();
-                          },
+        child: SafeArea(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                width: MediaQuery.of(context).size.width,
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 20, left: 20),
+                          child: IconButton(
+                            icon: const Icon(Icons.arrow_back),
+                            color: Colors.white,
+                            onPressed: () {
+                              goToDashboard();
+                            },
+                          ),
                         ),
-                      ),
-                      Expanded(
-                        child: Center(
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 20, top: 20),
-                            child: Text(
-                              widget.title,
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 22,
-                                fontWeight: FontWeight.w500,
+                        Expanded(
+                          child: Center(
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 20, top: 20),
+                              child: Text(
+                                widget.title,
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 20, right: 20),
-                        child: IconButton(
-                          icon: const Icon(Icons.more_vert),
-                          color: Colors.white,
-                          onPressed: () {},
+                        Padding(
+                          padding: const EdgeInsets.only(top: 20, right: 20),
+                          child: IconButton(
+                            icon: const Icon(Icons.more_vert),
+                            color: Colors.white,
+                            onPressed: () {},
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                  //addVerticalSpace(25),
-                  Expanded(
-                    child: SingleChildScrollView(
+                      ],
+                    ),
+                    //addVerticalSpace(25),
+                    SingleChildScrollView(
                       child: Column(
                         children: [
                           Padding(
@@ -345,12 +345,12 @@ class _CardsScreenState extends State<CardsScreen> {
                           ),
                         ],
                       ),
-                    ),
-                  )
-                ],
+                    )
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

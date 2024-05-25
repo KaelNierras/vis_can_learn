@@ -32,7 +32,6 @@ class InputText extends StatelessWidget {
         labelText: name,
         labelStyle: const TextStyle(color: Colors.white),
       ),
-      keyboardType: TextInputType.number,
       style: const TextStyle(color: Colors.white),
     );
   }

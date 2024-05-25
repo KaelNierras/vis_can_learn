@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 // import 'package:flutter_native_splash/flutter_native_splash.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vis_can_learn/common/wiget/input_text.dart';
@@ -40,6 +39,7 @@ class _SignupState extends State<Signup> {
     var confirmPasswordController = TextEditingController();
     return Scaffold(
       body: Container(
+        height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width, // Set the width to 100%
         decoration: const BoxDecoration(
           color: background,
@@ -48,89 +48,93 @@ class _SignupState extends State<Signup> {
           //   fit: BoxFit.cover, // Adjust the image size
           // ),
         ),
-        child: Padding(
-          padding: const EdgeInsets.all(30),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              addVerticalSpace(
-                MediaQuery.of(context).size.height / 5,
-              ),
-              const Text(
-                "Sign Up",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 35,
-                  fontWeight: FontWeight.w900,
-                ),
-              ),
-              addVerticalSpace(30),
-              InputText(
-                controller: usernameController,
-                name: "Username",
-                fill: false,
-              ),
-              addVerticalSpace(15),
-              InputText(
-                controller: emailController,
-                name: "Email",
-                fill: false,
-              ),
-              addVerticalSpace(15),
-              InputText(
-                controller: passwordController,
-                name: "Password",
-                fill: false,
-              ),
-              addVerticalSpace(15),
-              InputText(
-                controller: confirmPasswordController,
-                name: "Confirm Password",
-                fill: false,
-              ),
-              addVerticalSpace(20),
-              const Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+        child: Expanded(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(30),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'By registering, you are agreeing to our    \n    Terms of Use and Privacy Policy',
-                    style: TextStyle(color: Colors.white),
+                  addVerticalSpace(
+                    MediaQuery.of(context).size.height / 5,
                   ),
-                ],
-              ),
-              addVerticalSpace(30),
-              SizedBox(
-                width: MediaQuery.of(context).size.width,
-                child: ElevatedButton(
-                  onPressed: () {
-                    // Respond to button press
-                  },
-                  child: const Text('Sign Up'),
-                ),
-              ),
-              addVerticalSpace(10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
                   const Text(
-                    'Already have an account?',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  addHorizontalSpace(5),
-                  GestureDetector(
-                    onTap: () {
-                      gotoLogIn();
-                    },
-                    child: const Text(
-                      'Log In',
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, color: orange),
+                    "Sign Up",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 35,
+                      fontWeight: FontWeight.w900,
                     ),
                   ),
+                  addVerticalSpace(30),
+                  InputText(
+                    controller: usernameController,
+                    name: "Username",
+                    fill: false,
+                  ),
+                  addVerticalSpace(15),
+                  InputText(
+                    controller: emailController,
+                    name: "Email",
+                    fill: false,
+                  ),
+                  addVerticalSpace(15),
+                  InputText(
+                    controller: passwordController,
+                    name: "Password",
+                    fill: false,
+                  ),
+                  addVerticalSpace(15),
+                  InputText(
+                    controller: confirmPasswordController,
+                    name: "Confirm Password",
+                    fill: false,
+                  ),
+                  addVerticalSpace(20),
+                  const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'By registering, you are agreeing to our    \n    Terms of Use and Privacy Policy',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ],
+                  ),
+                  addVerticalSpace(30),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        // Respond to button press
+                      },
+                      child: const Text('Sign Up'),
+                    ),
+                  ),
+                  addVerticalSpace(10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text(
+                        'Already have an account?',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      addHorizontalSpace(5),
+                      GestureDetector(
+                        onTap: () {
+                          gotoLogIn();
+                        },
+                        child: const Text(
+                          'Log In',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, color: orange),
+                        ),
+                      ),
+                    ],
+                  ),
                 ],
               ),
-            ],
+            ),
           ),
         ),
       ),

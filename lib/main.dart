@@ -1,18 +1,7 @@
 // ignore_for_file: library_private_types_in_public_api
-import 'dart:html';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:vis_can_learn/features/dashboard/views/cards_screen.dart';
-import 'package:vis_can_learn/features/dashboard/views/create_set.dart';
-import 'package:vis_can_learn/features/authentication/views/email_verification.dart';
-import 'package:vis_can_learn/features/authentication/views/forgot_password.dart';
-import 'package:vis_can_learn/features/dashboard/views/full_card_view.dart';
-import 'package:vis_can_learn/features/dashboard/views/library_screen.dart';
-import 'package:vis_can_learn/features/authentication/views/reset_password.dart';
-import 'package:vis_can_learn/features/dashboard/views/search_screen.dart';
-import 'package:vis_can_learn/features/ingame/views/ingame.dart';
-
 import 'firebase_options.dart';
 
 //Customize theme and Functions
@@ -27,16 +16,12 @@ import 'features/onboarding/views/onboarding_screen.dart';
 import 'theme/theme_constants.dart';
 
 int? isViewed;
-int isLogged = 0;
 
 Future<void> main() async {
-  // WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
-  // FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  isViewed = prefs.getInt('onboard');
   runApp(const MyApp());
 }
 
@@ -49,7 +34,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
   @override
   void initState() {
     super.initState();
@@ -61,7 +45,28 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       title: 'VisCanLearn',
       theme: lightTheme,
-      home: isViewed != 0 ? const OnboardingScreen() : isLogged != 0? const Dashboard(): const Dashboard(),
+      home: Login(),
+      // home: StreamBuilder(
+      //   stream: FirebaseAuth.instance.authStateChanges(),
+      //   builder: (context, snapshot) {
+      //     if (snapshot.connectionState == ConnectionState.waiting) {
+      //       return const CircularProgressIndicator(); // Display loading indicator while checking authentication state.
+      //     } else {
+      //       if (isViewed == null || isViewed == 0) {
+      //         // User hasn't viewed the onboarding screen yet, navigate to OnboardingScreen.
+      //         return const OnboardingScreen();
+      //       } else {
+      //         if (snapshot.hasData) {
+      //           // User is logged in, navigate to Dashboard.
+      //           return const Dashboard();
+      //         } else {
+      //           // User is not logged in, navigate to Login.
+      //           return const Login();
+      //         }
+      //       }
+      //     }
+      //   },
+      // ),
     );
   }
 }

@@ -63,6 +63,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '310619288944',
     projectId: 'viscanlearn',
     storageBucket: 'viscanlearn.appspot.com',
+    iosClientId: '310619288944-9r2vsv89m8mlihpba17b244gj0tl91hg.apps.googleusercontent.com',
     iosBundleId: 'com.example.visCanLearn',
   );
 
@@ -72,6 +73,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '310619288944',
     projectId: 'viscanlearn',
     storageBucket: 'viscanlearn.appspot.com',
+    iosClientId: '310619288944-9r2vsv89m8mlihpba17b244gj0tl91hg.apps.googleusercontent.com',
     iosBundleId: 'com.example.visCanLearn',
   );
 

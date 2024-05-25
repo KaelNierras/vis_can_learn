@@ -12,7 +12,12 @@
           "package_name": "com.example.vis_can_learn"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "310619288944-h7141m65nd5a56nh1kq23lbheg6p6eqv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyA-3-jOIzZB11fUe046BOl4K39CXw9pNGM"
@@ -20,7 +25,91 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "310619288944-h7141m65nd5a56nh1kq23lbheg6p6eqv.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "310619288944-9r2vsv89m8mlihpba17b244gj0tl91hg.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.visCanLearn"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:310619288944:android:e3490198dd604514430bb5",
+        "android_client_info": {
+          "package_name": "com.example.viscan_learn_v2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "310619288944-h7141m65nd5a56nh1kq23lbheg6p6eqv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA-3-jOIzZB11fUe046BOl4K39CXw9pNGM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "310619288944-h7141m65nd5a56nh1kq23lbheg6p6eqv.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "310619288944-9r2vsv89m8mlihpba17b244gj0tl91hg.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.visCanLearn"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:310619288944:android:070fddaf89febd33430bb5",
+        "android_client_info": {
+          "package_name": "com.viscanlearn.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "310619288944-h7141m65nd5a56nh1kq23lbheg6p6eqv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA-3-jOIzZB11fUe046BOl4K39CXw9pNGM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "310619288944-h7141m65nd5a56nh1kq23lbheg6p6eqv.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "310619288944-9r2vsv89m8mlihpba17b244gj0tl91hg.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.visCanLearn"
+              }
+            }
+          ]
         }
       }
     }

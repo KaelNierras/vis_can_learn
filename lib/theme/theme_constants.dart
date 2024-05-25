@@ -16,15 +16,15 @@ ThemeData lightTheme = ThemeData(
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ButtonStyle(
-      padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+      padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
         const EdgeInsets.symmetric(horizontal: 40.0,vertical: 20.0)
       ),
-      shape: MaterialStateProperty.all<OutlinedBorder>(
+      shape: WidgetStateProperty.all<OutlinedBorder>(
         RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0))
       ),
-      backgroundColor: MaterialStateProperty.all<Color>(colorAccent),
-      foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+      backgroundColor: WidgetStateProperty.all<Color>(colorAccent),
+      foregroundColor: WidgetStateProperty.all<Color>(Colors.white),
       
     )
   ),
@@ -49,8 +49,8 @@ ThemeData darkTheme = ThemeData(
     brightness: Brightness.dark,
     secondaryHeaderColor: Colors.white,
     switchTheme: SwitchThemeData(
-      trackColor: MaterialStateProperty.all<Color>(Colors.grey),
-      thumbColor: MaterialStateProperty.all<Color>(Colors.white),
+      trackColor: WidgetStateProperty.all<Color>(Colors.grey),
+      thumbColor: WidgetStateProperty.all<Color>(Colors.white),
   ),
     inputDecorationTheme: InputDecorationTheme(
         border: OutlineInputBorder(
@@ -61,17 +61,17 @@ ThemeData darkTheme = ThemeData(
     ),
   elevatedButtonTheme: ElevatedButtonThemeData(
       style: ButtonStyle(
-          padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+          padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
               const EdgeInsets.symmetric(horizontal: 40.0,vertical: 20.0)
           ),
-          shape: MaterialStateProperty.all<OutlinedBorder>(
+          shape: WidgetStateProperty.all<OutlinedBorder>(
               RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20.0)
               )
           ),
-          backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
-        foregroundColor: MaterialStateProperty.all<Color>(Colors.black),
-        overlayColor: MaterialStateProperty.all<Color>(Colors.black26)
+          backgroundColor: WidgetStateProperty.all<Color>(Colors.white),
+        foregroundColor: WidgetStateProperty.all<Color>(Colors.black),
+        overlayColor: WidgetStateProperty.all<Color>(Colors.black26)
       )
   ),
 );
