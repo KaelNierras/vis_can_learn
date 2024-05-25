@@ -34,13 +34,17 @@ class _InGameState extends State<InGame> {
 
     // Calculate the correct and wrong answers
     for (var i = 0; i < quizData.length; i++) {
-      if (selectedChoices[quizData[i].question] ==
-          correctAnswers[quizData[i].question]) {
-        correctPage[quizData[i].question] =
-            selectedChoices[quizData[i].question]!;
+      var selectedChoice = selectedChoices[quizData[i].question];
+      var correctAnswer = correctAnswers[quizData[i].question];
+
+      if (selectedChoice == null || correctAnswer == null) {
+        continue;
+      }
+
+      if (selectedChoice == correctAnswer) {
+        correctPage[quizData[i].question] = selectedChoice;
       } else {
-        wrongPage[quizData[i].question] =
-            selectedChoices[quizData[i].question]!;
+        wrongPage[quizData[i].question] = selectedChoice;
       }
     }
   }
@@ -48,21 +52,21 @@ class _InGameState extends State<InGame> {
   void goToResult() {
     if (selectedChoices.length != _totalPages) {
       return;
+    } else {
+      //Navigate to the result page
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ResultPage(
+              totalPage: _totalPages,
+              correctPage: correctPage,
+              wrongPage: wrongPage,
+              quizData: quizData,
+              setId: widget.setId,
+              title: widget.title,
+            ),
+          ));
     }
-    
-    //Navigate to the result page
-    Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => ResultPage(
-            totalPage: _totalPages,
-            correctPage: correctPage,
-            wrongPage: wrongPage,
-            quizData: quizData,
-            setId: widget.setId,
-            title: widget.title,
-          ),
-        ));
   }
 
   Future<void> getData(String setId) async {
@@ -173,100 +177,104 @@ class _InGameState extends State<InGame> {
                   ],
                 ),
               ),
-              // Expanded(
-              //   child: PageView.builder(
-              //     controller: _pageController, // Pass the controller to PageView
-              //     itemCount: quizData.length,
-              //     onPageChanged: (index) {
-              //       // Update the current page when the page changes
-              //       setState(() {
-              //         _currentPage = index;
-              //       });
-              //     },
-          
-              //     itemBuilder: (context, index) {
-              //       // Extract the question and choices from the map
-              //       String question = quizData[index].question;
-              //       List<String> choices = quizData[index].choices;
-          
-              //       return Padding(
-              //         padding: const EdgeInsets.all(20.0),
-              //         child: Column(
-              //           children: [
-              //             addVerticalSpace(20),
-              //             Flexible(
-              //               flex: 2,
-              //               child: Column(
-              //                 mainAxisAlignment: MainAxisAlignment.center,
-              //                 children: [
-              //                   Text(
-              //                     question,
-              //                     style: const TextStyle(
-              //                       color: Colors.white,
-              //                       fontSize: 22,
-              //                       fontWeight: FontWeight.w500,
-              //                     ),
-              //                   ),
-              //                 ],
-              //               ),
-              //             ),
-              //             Flexible(
-              //               flex: 2,
-              //               child: Padding(
-              //                 padding: const EdgeInsets.symmetric(horizontal: 20),
-              //                 child: Column(
-              //                   mainAxisAlignment: MainAxisAlignment.end,
-              //                   children: choices.map((choice) {
-              //                     return Column(
-              //                       children: [
-              //                         SizedBox(
-              //                           width: MediaQuery.of(context).size.width,
-              //                           child: ElevatedButton(
-              //                             onPressed: () {
-              //                               // Add or remove the choice based on its presence in selectedChoices
-          
-              //                               // Navigate to the next page
-              //                               setState(() {
-              //                                 _currentPage = index;
-          
-              //                                 selectedChoices[question] = choice;
-              //                               });
-              //                               _pageController.nextPage(
-              //                                 duration: const Duration(
-              //                                     milliseconds:
-              //                                         300), // Optionally, set the duration for the animation
-              //                                 curve: Curves
-              //                                     .ease, // Optionally, set the curve for the animation
-              //                               );
-              //                             },
-              //                             style: ButtonStyle(
-              //                               backgroundColor: WidgetStateProperty
-              //                                   .resolveWith<Color>(
-              //                                       (Set<WidgetState> states) {
-              //                                 if (selectedChoices[question] ==
-              //                                     choice) {
-              //                                   return lightGreen; // Change to your desired color for selected choice
-              //                                 } else {
-              //                                   return orange; // Change to your default button color
-              //                                 }
-              //                               }),
-              //                             ),
-              //                             child: Text(choice),
-              //                           ),
-              //                         ),
-              //                         const SizedBox(height: 20),
-              //                       ],
-              //                     );
-              //                   }).toList(),
-              //                 ),
-              //               ),
-              //             ),
-              //           ],
-              //         ),
-              //       );
-              //     },
-              //   ),
-              // ),
+              Expanded(
+                child: PageView.builder(
+                  controller:
+                      _pageController, // Pass the controller to PageView
+                  itemCount: quizData.length,
+                  onPageChanged: (index) {
+                    // Update the current page when the page changes
+                    setState(() {
+                      _currentPage = index;
+                    });
+                  },
+
+                  itemBuilder: (context, index) {
+                    // Extract the question and choices from the map
+                    String question = quizData[index].question;
+                    List<String> choices = quizData[index].choices;
+
+                    return Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Column(
+                        children: [
+                          addVerticalSpace(20),
+                          Flexible(
+                            flex: 2,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  question,
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Flexible(
+                            flex: 2,
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: choices.map((choice) {
+                                  return Column(
+                                    children: [
+                                      SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        child: ElevatedButton(
+                                          onPressed: () {
+                                            // Add or remove the choice based on its presence in selectedChoices
+
+                                            // Navigate to the next page
+                                            setState(() {
+                                              _currentPage = index;
+
+                                              selectedChoices[question] =
+                                                  choice;
+                                            });
+                                            _pageController.nextPage(
+                                              duration: const Duration(
+                                                  milliseconds:
+                                                      300), // Optionally, set the duration for the animation
+                                              curve: Curves
+                                                  .ease, // Optionally, set the curve for the animation
+                                            );
+                                          },
+                                          style: ButtonStyle(
+                                            backgroundColor: WidgetStateProperty
+                                                .resolveWith<Color>(
+                                                    (Set<WidgetState> states) {
+                                              if (selectedChoices[question] ==
+                                                  choice) {
+                                                return lightGreen; // Change to your desired color for selected choice
+                                              } else {
+                                                return orange; // Change to your default button color
+                                              }
+                                            }),
+                                          ),
+                                          child: Text(choice),
+                                        ),
+                                      ),
+                                      const SizedBox(height: 20),
+                                    ],
+                                  );
+                                }).toList(),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              ),
             ],
           ),
         ),

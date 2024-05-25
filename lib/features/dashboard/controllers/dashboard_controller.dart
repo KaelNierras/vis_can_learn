@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:vis_can_learn/features/dashboard/models/set_model.dart';
 
-Future<List<Sets>> getReviewers(String userId) async {
+Future<List<Sets>> getReviewers(String email) async {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   CollectionReference<Map<String, dynamic>> collectionRef = firestore.collection('sets');
 
-  QuerySnapshot<Map<String, dynamic>> querySnapshot = await collectionRef.where('set_owner', arrayContains: userId).get();
+  QuerySnapshot<Map<String, dynamic>> querySnapshot = await collectionRef.where('set_owner', arrayContains: email).get();
 
   List<Sets> reviewers = [];
 

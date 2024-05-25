@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 // import 'package:flutter_native_splash/flutter_native_splash.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vis_can_learn/common/wiget/input_text.dart';
+import 'package:vis_can_learn/features/authentication/views/forgot_password.dart';
 import 'package:vis_can_learn/features/dashboard/views/dashboard_screen.dart';
 import 'package:vis_can_learn/theme/custom_colors.dart';
 import 'package:vis_can_learn/utils/widget_helper.dart';
@@ -32,14 +33,26 @@ class _LoginState extends State<Login> {
     );
   }
 
+  void gotoForgotPassword() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const ForgotPassword(),
+      ),
+    );
+  }
+
   void login(String email, String password) async {
     try {
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
+      SnackBar(content: const Text('Logged in successfully'));
       goToDashboard();
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
+        SnackBar(content: const Text('No user found for that email.'));
       } else if (e.code == 'wrong-password') {
+        SnackBar(content: const Text('Wrong password provided for that user.'));
       }
     }
   }
@@ -65,14 +78,10 @@ class _LoginState extends State<Login> {
     var passwordController = TextEditingController();
     return Scaffold(
       body: Container(
-        width: MediaQuery.of(context).size.width, // Set the width to 100%
-        height: MediaQuery.of(context).size.height, // Set the width to 100%
+        width: MediaQuery.of(context).size.width, 
+        height: MediaQuery.of(context).size.height, 
         decoration: const BoxDecoration(
           color: background,
-          // image: DecorationImage(
-          //   image: AssetImage('assets/images/mountain_bg.png'),
-          //   fit: BoxFit.cover, // Adjust the image size
-          // ),
         ),
         child: SingleChildScrollView(
           child: Padding(
@@ -115,15 +124,20 @@ class _LoginState extends State<Login> {
                   ),
                 ),
                 addVerticalSpace(10),
-                const Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Text(
-                      'Forget Password?',
-                      style: TextStyle(color: Colors.white),
+                    GestureDetector(
+                      onTap: () {
+                        gotoForgotPassword();
+                      },
+                      child: Text(
+                        'Forget Password?',
+                        style: TextStyle(color: Colors.white),
+                      ),
                     ),
                   ],
-                ),   
+                ),
                 addVerticalSpace(10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -139,8 +153,8 @@ class _LoginState extends State<Login> {
                       },
                       child: const Text(
                         'Sign Up',
-                        style:
-                            TextStyle(fontWeight: FontWeight.bold, color: orange),
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, color: orange),
                       ),
                     )
                   ],

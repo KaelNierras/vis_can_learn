@@ -84,6 +84,7 @@ class _CreateSetState extends State<CreateSet> {
       'set_name': setText.text,
       'set_description': description.text,
       'set_array': cards,
+      'set_course': course.text,
     };
 
     FirebaseFirestore.instance.collection('sets').add(set);
@@ -117,6 +118,7 @@ class _CreateSetState extends State<CreateSet> {
         ],
       ),
       body: Container(
+        height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width, // Set the width to 100%
         decoration: const BoxDecoration(
           color: background,
@@ -126,31 +128,40 @@ class _CreateSetState extends State<CreateSet> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              InputTextSecondary(
-                  text: 'Subject, chapter, unit', controller: setText),
-              const Text(
-                'SET NAME',
-                style: TextStyle(color: Colors.white),
-              ),
-              addVerticalSpace(20),
-              InputTextSecondary(text: '', controller: description),
-              const Text(
-                'DESCRIPTION (OPTIONAL)',
-                style: TextStyle(color: Colors.white),
-              ),
-              addVerticalSpace(20),
-              InputTextSecondary(text: '', controller: course),
-              const Text(
-                'COURSE',
-                style: TextStyle(color: Colors.white),
-              ),
-              addVerticalSpace(50),
               Expanded(
-                child: MyCard(
-                  addCardCallback: addCard,
-                  items: items,
-                  frontSideControllers: frontSideControllers,
-                  definitionControllers: definitionControllers,
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      InputTextSecondary(
+                          text: 'Subject, chapter, unit', controller: setText),
+                      const Text(
+                        'SET NAME',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      addVerticalSpace(20),
+                      InputTextSecondary(text: '', controller: description),
+                      const Text(
+                        'DESCRIPTION (OPTIONAL)',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      addVerticalSpace(20),
+                      InputTextSecondary(text: '', controller: course),
+                      const Text(
+                        'COURSE',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      Container(
+                        height: items.length * 200,
+                        child: MyCard(
+                          addCardCallback: addCard,
+                          items: items,
+                          frontSideControllers: frontSideControllers,
+                          definitionControllers: definitionControllers,
+                        ),
+                      ),
+                      addVerticalSpace(40)
+                    ],
+                  ),
                 ),
               ),
             ],

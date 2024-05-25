@@ -31,6 +31,8 @@ class _LibraryScreenState extends State<LibraryScreen> {
     );
   }
 
+
+
   void goToCreateSet() {
     Navigator.push(
       context,
@@ -151,32 +153,6 @@ class _LibraryScreenState extends State<LibraryScreen> {
                             
                             const SizedBox(width: 70),
                             
-                            Column(
-                              children: [
-                                SizedBox(
-                                  height: 40,
-                                  width: MediaQuery.of(context).size.width - 210,
-                                  child: TextField(
-                                    style: const TextStyle(color: Color.fromARGB(244, 218, 218, 218), fontSize: 12),
-                                    decoration: InputDecoration(
-                                      prefixIcon: const Icon(Icons.search, color: Colors.white),
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(15),
-                                        borderSide: const BorderSide(color: Colors.white, width: 1.5),
-                                      ),
-                                      filled: true,
-                                      fillColor: lightGreen,
-                                      hintText: 'Search Sets...',
-                                      hintStyle: const TextStyle(color: Color.fromARGB(244, 218, 218, 218), fontSize: 12),
-                                    ),
-                                    onSubmitted: (value) {
-                                      // Call your search function here
-                                      // Search(value);
-                                    },
-                                  ),
-                                )
-                              ],
-                            ),
                           ],
                         ),
                             

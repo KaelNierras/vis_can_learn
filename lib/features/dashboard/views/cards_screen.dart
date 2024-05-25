@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:vis_can_learn/common/wiget/input_text.dart';
 import 'package:vis_can_learn/features/dashboard/views/dashboard_screen.dart';
 import 'package:vis_can_learn/features/ingame/views/ingame.dart';
 import 'package:vis_can_learn/theme/custom_colors.dart';
@@ -9,8 +10,10 @@ import 'package:flip_card/flip_card.dart';
 class CardsScreen extends StatefulWidget {
   final String setId;
   final String title;
+  final String? personId;
 
-  const CardsScreen({super.key, required this.setId, required this.title});
+  const CardsScreen(
+      {super.key, required this.setId, required this.title, this.personId});
 
   @override
   State<CardsScreen> createState() => _CardsScreenState();
@@ -21,6 +24,21 @@ class _CardsScreenState extends State<CardsScreen> {
   initState() {
     super.initState();
     getData(widget.setId);
+  }
+
+  void deleteSet() async {
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+    CollectionReference<Map<String, dynamic>> collectionRef =
+        firestore.collection('sets');
+    QuerySnapshot<Map<String, dynamic>> querySnapshot =
+        await collectionRef.where('set_id', isEqualTo: widget.setId).get();
+
+    if (querySnapshot.docs.isNotEmpty) {
+      String docId = querySnapshot.docs.first.id; // Get the document ID
+      await collectionRef.doc(docId).delete(); // Delete the document using the document ID
+    } else {
+      SnackBar(content: const Text("No such document."),);
+    }
   }
 
   void goToDashboard() {
@@ -63,8 +81,48 @@ class _CardsScreenState extends State<CardsScreen> {
         description = setData['set_description'];
       });
     } else {
-      throw Exception("No such document.");
+      SnackBar(content: const Text("No such document."),);
     }
+  }
+
+  void removePerson(String personId) {
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+    CollectionReference<Map<String, dynamic>> collectionRef =
+        firestore.collection('sets');
+
+    collectionRef
+        .where('set_id', isEqualTo: widget.setId)
+        .get()
+        .then((querySnapshot) {
+      if (querySnapshot.docs.isNotEmpty) {
+        var doc = querySnapshot.docs.first;
+        doc.reference.update({
+          'set_owner': FieldValue.arrayRemove([personId])
+        });
+      } else {
+        SnackBar(content:  Text('No matching document found'));
+      }
+    });
+  }
+
+  void addPerson(String personId) {
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+    CollectionReference<Map<String, dynamic>> collectionRef =
+        firestore.collection('sets');
+
+    collectionRef
+        .where('set_id', isEqualTo: widget.setId)
+        .get()
+        .then((querySnapshot) {
+      if (querySnapshot.docs.isNotEmpty) {
+        var doc = querySnapshot.docs.first;
+        doc.reference.update({
+          'set_owner': FieldValue.arrayUnion([personId])
+        });
+      } else {
+        SnackBar(content: const Text('No matching document found'),);
+      }
+    });
   }
 
   @override
@@ -111,14 +169,128 @@ class _CardsScreenState extends State<CardsScreen> {
                             ),
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 20, right: 20),
-                          child: IconButton(
-                            icon: const Icon(Icons.more_vert),
+                        PopupMenuButton<int>(
+                          offset: const Offset(0, 50),
+                          icon: const Icon(
+                            Icons.more_vert,
+                            size: 30,
                             color: Colors.white,
-                            onPressed: () {},
                           ),
-                        ),
+                          itemBuilder: (context) => [
+                            PopupMenuItem(
+                              value: 2,
+                              child: const Text("Manage People"),
+                              onTap: () async {
+                                TextEditingController emailController =
+                                    TextEditingController();
+                                showModalBottomSheet(
+                                  backgroundColor: background,
+                                  context: context,
+                                  builder: (context) {
+                                    return SingleChildScrollView(
+                                      child: Container(
+                                        padding: EdgeInsets.only(
+                                            bottom: MediaQuery.of(context)
+                                                .viewInsets
+                                                .bottom),
+                                        child: Center(
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 50,
+                                                    left: 30,
+                                                    right: 30,
+                                                    bottom: 20),
+                                                child: InputText(
+                                                  controller: emailController,
+                                                  name: "Email",
+                                                  fill: false,
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    bottom: 40),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    ElevatedButton(
+                                                      onPressed: () {
+                                                        addPerson(emailController.text);
+                                                      },
+                                                      child: const Text(
+                                                          'Add Person'),
+                                                      style: ButtonStyle(
+                                                        backgroundColor:
+                                                            WidgetStateProperty
+                                                                .all(green),
+                                                      ),
+                                                    ),
+                                                    addHorizontalSpace(20),
+                                                    ElevatedButton(
+                                                      style: ButtonStyle(
+                                                        backgroundColor:
+                                                            WidgetStateProperty
+                                                                .all(Colors
+                                                                    .redAccent),
+                                                      ),
+                                                      onPressed: () {
+                                                        removePerson(emailController.text);
+                                                      },
+                                                      child: const Text(
+                                                          'Remove Person'),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                );
+                              },
+                            ),
+                            PopupMenuItem(
+                              value: 2,
+                              child: const Text("Delete Set"),
+                              onTap: () async {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      title: const Text('Confirm Deletion'),
+                                      content: const Text(
+                                          'Are you sure you want to delete this set?'),
+                                      actions: <Widget>[
+                                        TextButton(
+                                          child: const Text('Cancel'),
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                        ),
+                                        TextButton(
+                                          child: const Text('Delete'),
+                                          onPressed: () {
+                                            deleteSet();
+                                            goToDashboard();
+                                          },
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                              },
+                            ),
+                          ],
+                          onSelected: (value) {
+                            // handle your logic here based on selected value
+                          },
+                        )
                       ],
                     ),
                     //addVerticalSpace(25),
@@ -137,7 +309,8 @@ class _CardsScreenState extends State<CardsScreen> {
                                     itemCount: data.length,
                                     itemBuilder: (context, index) {
                                       String key = data.keys.elementAt(index);
-                                      String back = data.values.elementAt(index);
+                                      String back =
+                                          data.values.elementAt(index);
                                       return FlipCard(
                                         direction:
                                             FlipDirection.VERTICAL, // default

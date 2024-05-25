@@ -28,8 +28,7 @@ class _DashboardState extends State<Dashboard> {
     fetchReviewers();
   }
 
-    
-
+  
   Map<String, dynamic> data = {};
   String currentUser = '' ;
   
@@ -65,7 +64,7 @@ class _DashboardState extends State<Dashboard> {
     User? user = FirebaseAuth.instance.currentUser;
     if (user != null) {
       setState(() {
-        currentUser = user.uid;
+        currentUser = user.email.toString();
       });
     } else {
     }
@@ -93,7 +92,7 @@ class _DashboardState extends State<Dashboard> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => CardsScreen(setId: setId, title: title,),
+        builder: (context) => CardsScreen(setId: setId, title: title, personId: currentUser),
       ),
     );
   }
@@ -147,10 +146,6 @@ class _DashboardState extends State<Dashboard> {
                             color: Colors.white,
                           ),
                           itemBuilder: (context) => [
-                            const PopupMenuItem(
-                              value: 1,
-                              child: Text("Change Name"),
-                            ),
                             PopupMenuItem(
                               value: 2,
                               child: const Text("Signout"),
@@ -167,43 +162,45 @@ class _DashboardState extends State<Dashboard> {
                       ],
                     ),
                     addVerticalSpace(10),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 30),
-                      child: Column(
-                        children: [
-                          SizedBox(
-                            height: 45,
-                            child: ElevatedButton(
-                              onPressed: goToSearch,
-                              style: ButtonStyle(
-                                backgroundColor:
-                                    WidgetStateProperty.all(lightGreen),
-                                side: WidgetStateProperty.all(const BorderSide(
-                                    color: Colors.white, width: 2)),
-                                shape: WidgetStateProperty.all(
-                                    RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(
-                                      30), // Set the border radius here
-                                )),
-                              ),
-                              child: const Row(
-                                children: [
-                                  Icon(
-                                    Icons.search,
-                                  ),
-                                  Text(
-                                    'Search Sets...',
-                                    style: TextStyle(
-                                        color:
-                                            Color.fromARGB(244, 218, 218, 218)),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
+                    // Padding(
+                    //   padding: const EdgeInsets.symmetric(horizontal: 30),
+                    //   child: Column(
+                    //     mainAxisAlignment: MainAxisAlignment.center,
+                    //     crossAxisAlignment: CrossAxisAlignment.center,
+                    //     children: [
+                    //       SizedBox(
+                    //         height: 60,
+                    //         child: ElevatedButton(
+                    //           onPressed: goToSearch,
+                    //           style: ButtonStyle(
+                    //             backgroundColor:
+                    //                 WidgetStateProperty.all(lightGreen),
+                    //             side: WidgetStateProperty.all(const BorderSide(
+                    //                 color: Colors.white, width: 2)),
+                    //             shape: WidgetStateProperty.all(
+                    //                 RoundedRectangleBorder(
+                    //               borderRadius: BorderRadius.circular(
+                    //                   30), // Set the border radius here
+                    //             )),
+                    //           ),
+                    //           child: const Row(
+                    //             children: [
+                    //               Icon(
+                    //                 Icons.search,
+                    //               ),
+                    //               Text(
+                    //                 'Search Sets...',
+                    //                 style: TextStyle(
+                    //                     color:
+                    //                         Color.fromARGB(244, 218, 218, 218)),
+                    //               ),
+                    //             ],
+                    //           ),
+                    //         ),
+                    //       )
+                    //     ],
+                    //   ),
+                    // ),
                   ],
                 ),
               ),
