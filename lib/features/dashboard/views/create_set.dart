@@ -1,6 +1,7 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:vis_can_learn/features/dashboard/views/dashboard_screen.dart';
 import 'package:vis_can_learn/theme/custom_colors.dart';
 import 'package:vis_can_learn/utils/widget_helper.dart';
@@ -56,6 +57,14 @@ class _CreateSetState extends State<CreateSet> {
     "last": "Lovelace",
     "born": 1815
   };
+
+  void deleteCard(int index) {
+    setState(() {
+      items.removeAt(index);
+      frontSideControllers.removeAt(index);
+      definitionControllers.removeAt(index);
+    });
+  }
 
   String generateRandomString(int length) {
     const allowedChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
@@ -153,14 +162,87 @@ class _CreateSetState extends State<CreateSet> {
                       ),
                       addVerticalSpace(30),
                       Container(
-                        height: (items.length + 1) * 225.0,
-                        child: MyCard(
-                          addCardCallback: addCard,
-                          items: items,
-                          frontSideControllers: frontSideControllers,
-                          definitionControllers: definitionControllers,
-                        ),
-                      ),
+                          height: (items.length + 1) * 225.0,
+                          child: Column(
+                            children: [
+                              Column(
+                                children: items.asMap().entries.map((entry) {
+                                  int index = entry.key;
+                                  return Slidable(
+                                    key: Key(index.toString()),
+                                    endActionPane: ActionPane(
+                                      // A motion is a widget used to control how the pane animates.
+                                      motion: const ScrollMotion(),
+
+                                      // All actions are defined in the children parameter.
+                                      children: [
+                                        // A SlidableAction can have an icon and/or a label.
+                                        SlidableAction(
+                                          onPressed: (context) =>
+                                              deleteCard(index),
+                                          backgroundColor:
+                                              const Color(0xFFFE4A49),
+                                          foregroundColor: Colors.white,
+                                          icon: Icons.delete,
+                                          label: 'Delete',
+                                        ),
+                                      ],
+                                    ),
+                                    child: Card(
+                                      child: ListTile(
+                                        title: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 10.0, horizontal: 5.0),
+                                          child: SizedBox(
+                                            height: 200,
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                InputTextSecondary(
+                                                    text: '',
+                                                    controller:
+                                                        frontSideControllers[
+                                                            index]),
+                                                const Text(
+                                                  'TERM (FRONT SIDE)',
+                                                  style: TextStyle(
+                                                      color: Colors.white),
+                                                ),
+                                                addVerticalSpace(20),
+                                                InputTextSecondary(
+                                                    text: '',
+                                                    controller:
+                                                        definitionControllers[
+                                                            index]),
+                                                const Text(
+                                                  'DEFINATION (BACK SIDE)',
+                                                  style: TextStyle(
+                                                      color: Colors.white),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                }).toList(),
+                              ),
+                              addVerticalSpace(30),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width,
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    addCard();
+                                  },
+                                  child: const Text('ADD ANOTHER CARD'),
+                                ),
+                              ),
+                            ],
+                          )),
                     ],
                   ),
                 ),
