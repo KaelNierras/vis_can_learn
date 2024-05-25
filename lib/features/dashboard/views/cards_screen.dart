@@ -35,9 +35,13 @@ class _CardsScreenState extends State<CardsScreen> {
 
     if (querySnapshot.docs.isNotEmpty) {
       String docId = querySnapshot.docs.first.id; // Get the document ID
-      await collectionRef.doc(docId).delete(); // Delete the document using the document ID
+      await collectionRef
+          .doc(docId)
+          .delete(); // Delete the document using the document ID
     } else {
-      SnackBar(content: const Text("No such document."),);
+      SnackBar(
+        content: const Text("No such document."),
+      );
     }
   }
 
@@ -81,7 +85,9 @@ class _CardsScreenState extends State<CardsScreen> {
         description = setData['set_description'];
       });
     } else {
-      SnackBar(content: const Text("No such document."),);
+      SnackBar(
+        content: const Text("No such document."),
+      );
     }
   }
 
@@ -100,7 +106,7 @@ class _CardsScreenState extends State<CardsScreen> {
           'set_owner': FieldValue.arrayRemove([personId])
         });
       } else {
-        SnackBar(content:  Text('No matching document found'));
+        SnackBar(content: Text('No matching document found'));
       }
     });
   }
@@ -120,7 +126,9 @@ class _CardsScreenState extends State<CardsScreen> {
           'set_owner': FieldValue.arrayUnion([personId])
         });
       } else {
-        SnackBar(content: const Text('No matching document found'),);
+        SnackBar(
+          content: const Text('No matching document found'),
+        );
       }
     });
   }
@@ -128,400 +136,360 @@ class _CardsScreenState extends State<CardsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        width: MediaQuery.of(context).size.width,
-        decoration: const BoxDecoration(
-          color: background,
+      appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          color: Colors.white,
+          onPressed: () {
+            goToDashboard();
+          },
         ),
-        child: SafeArea(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                width: MediaQuery.of(context).size.width,
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top: 20, left: 20),
-                          child: IconButton(
-                            icon: const Icon(Icons.arrow_back),
-                            color: Colors.white,
-                            onPressed: () {
-                              goToDashboard();
-                            },
-                          ),
-                        ),
-                        Expanded(
+        title: Center(
+          child: Text(
+            widget.title,
+            style:
+                TextStyle(color: Colors.white), // Set the color of the title text
+          ),
+        ),
+        actions: <Widget>[
+          PopupMenuButton<int>(
+            offset: const Offset(0, 50),
+            icon: const Icon(
+              Icons.more_vert,
+              size: 30,
+              color: Colors.white,
+            ),
+            itemBuilder: (context) => [
+              PopupMenuItem(
+                value: 2,
+                child: const Text("Manage People"),
+                onTap: () async {
+                  TextEditingController emailController =
+                      TextEditingController();
+                  showModalBottomSheet(
+                    backgroundColor: background,
+                    context: context,
+                    builder: (context) {
+                      return SingleChildScrollView(
+                        child: Container(
+                          padding: EdgeInsets.only(
+                              bottom: MediaQuery.of(context).viewInsets.bottom),
                           child: Center(
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 20, top: 20),
-                              child: Text(
-                                widget.title,
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.w500,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      top: 50, left: 30, right: 30, bottom: 20),
+                                  child: InputText(
+                                    controller: emailController,
+                                    name: "Email",
+                                    fill: false,
+                                  ),
                                 ),
-                              ),
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom: 40),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      ElevatedButton(
+                                        onPressed: () {
+                                          addPerson(emailController.text);
+                                        },
+                                        child: const Text('Add Person'),
+                                        style: ButtonStyle(
+                                          backgroundColor:
+                                              WidgetStateProperty.all(green),
+                                        ),
+                                      ),
+                                      addHorizontalSpace(20),
+                                      ElevatedButton(
+                                        style: ButtonStyle(
+                                          backgroundColor:
+                                              WidgetStateProperty.all(
+                                                  Colors.redAccent),
+                                        ),
+                                        onPressed: () {
+                                          removePerson(emailController.text);
+                                        },
+                                        child: const Text('Remove Person'),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ),
-                        PopupMenuButton<int>(
-                          offset: const Offset(0, 50),
-                          icon: const Icon(
-                            Icons.more_vert,
-                            size: 30,
-                            color: Colors.white,
+                      );
+                    },
+                  );
+                },
+              ),
+              PopupMenuItem(
+                value: 2,
+                child: const Text("Delete Set"),
+                onTap: () async {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: const Text('Confirm Deletion'),
+                        content: const Text(
+                            'Are you sure you want to delete this set?'),
+                        actions: <Widget>[
+                          TextButton(
+                            child: const Text('Cancel'),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
                           ),
-                          itemBuilder: (context) => [
-                            PopupMenuItem(
-                              value: 2,
-                              child: const Text("Manage People"),
-                              onTap: () async {
-                                TextEditingController emailController =
-                                    TextEditingController();
-                                showModalBottomSheet(
-                                  backgroundColor: background,
-                                  context: context,
-                                  builder: (context) {
-                                    return SingleChildScrollView(
-                                      child: Container(
-                                        padding: EdgeInsets.only(
-                                            bottom: MediaQuery.of(context)
-                                                .viewInsets
-                                                .bottom),
-                                        child: Center(
+                          TextButton(
+                            child: const Text('Delete'),
+                            onPressed: () {
+                              deleteSet();
+                              goToDashboard();
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
+              ),
+            ],
+            onSelected: (value) {
+              // handle your logic here based on selected value
+            },
+          )
+        ],
+      ),
+      body: SingleChildScrollView(
+        child: Container(
+          height: MediaQuery.of(context).size.height * .99,
+          width: MediaQuery.of(context).size.width,
+          decoration: const BoxDecoration(
+            color: background,
+          ),
+          child: Column(
+            children: [
+              SizedBox(
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 30),
+                      child: Column(
+                        children: [
+                          addVerticalSpace(20),
+                          SizedBox(
+                            height: 200,
+                            child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: data.length,
+                              itemBuilder: (context, index) {
+                                String key = data.keys.elementAt(index);
+                                String back = data.values.elementAt(index);
+                                return FlipCard(
+                                  direction:
+                                      FlipDirection.VERTICAL, // default
+                                  front: Stack(
+                                    // Use Stack to overlay the icon on top of the card
+                                    children: [
+                                      Container(
+                                        width: 300,
+                                        margin:
+                                            const EdgeInsets.only(right: 20),
+                                        decoration: BoxDecoration(
+                                          color: accentGreen,
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(20),
                                           child: Column(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
                                             children: [
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    top: 50,
-                                                    left: 30,
-                                                    right: 30,
-                                                    bottom: 20),
-                                                child: InputText(
-                                                  controller: emailController,
-                                                  name: "Email",
-                                                  fill: false,
+                                              Text(
+                                                key,
+                                                style: const TextStyle(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 20,
                                                 ),
                                               ),
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    bottom: 40),
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    ElevatedButton(
-                                                      onPressed: () {
-                                                        addPerson(emailController.text);
-                                                      },
-                                                      child: const Text(
-                                                          'Add Person'),
-                                                      style: ButtonStyle(
-                                                        backgroundColor:
-                                                            WidgetStateProperty
-                                                                .all(green),
-                                                      ),
-                                                    ),
-                                                    addHorizontalSpace(20),
-                                                    ElevatedButton(
-                                                      style: ButtonStyle(
-                                                        backgroundColor:
-                                                            WidgetStateProperty
-                                                                .all(Colors
-                                                                    .redAccent),
-                                                      ),
-                                                      onPressed: () {
-                                                        removePerson(emailController.text);
-                                                      },
-                                                      child: const Text(
-                                                          'Remove Person'),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
+                                              addVerticalSpace(10),
                                             ],
                                           ),
                                         ),
                                       ),
-                                    );
-                                  },
-                                );
-                              },
-                            ),
-                            PopupMenuItem(
-                              value: 2,
-                              child: const Text("Delete Set"),
-                              onTap: () async {
-                                showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    return AlertDialog(
-                                      title: const Text('Confirm Deletion'),
-                                      content: const Text(
-                                          'Are you sure you want to delete this set?'),
-                                      actions: <Widget>[
-                                        TextButton(
-                                          child: const Text('Cancel'),
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                          },
-                                        ),
-                                        TextButton(
-                                          child: const Text('Delete'),
-                                          onPressed: () {
-                                            deleteSet();
-                                            goToDashboard();
-                                          },
-                                        ),
-                                      ],
-                                    );
-                                  },
-                                );
-                              },
-                            ),
-                          ],
-                          onSelected: (value) {
-                            // handle your logic here based on selected value
-                          },
-                        )
-                      ],
-                    ),
-                    //addVerticalSpace(25),
-                    SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 30),
-                            child: Column(
-                              children: [
-                                addVerticalSpace(20),
-                                SizedBox(
-                                  height: 200,
-                                  child: ListView.builder(
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount: data.length,
-                                    itemBuilder: (context, index) {
-                                      String key = data.keys.elementAt(index);
-                                      String back =
-                                          data.values.elementAt(index);
-                                      return FlipCard(
-                                        direction:
-                                            FlipDirection.VERTICAL, // default
-                                        front: Stack(
-                                          // Use Stack to overlay the icon on top of the card
-                                          children: [
-                                            Container(
-                                              width: 300,
-                                              margin: const EdgeInsets.only(
-                                                  right: 20),
-                                              decoration: BoxDecoration(
-                                                color: accentGreen,
-                                                borderRadius:
-                                                    BorderRadius.circular(20),
-                                              ),
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.all(20),
-                                                child: Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.center,
-                                                  children: [
-                                                    Text(
-                                                      key,
-                                                      style: const TextStyle(
-                                                        color: Colors.white,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontSize: 20,
-                                                      ),
-                                                    ),
-                                                    addVerticalSpace(10),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        back: Container(
-                                          width: 300,
-                                          margin:
-                                              const EdgeInsets.only(right: 20),
-                                          decoration: BoxDecoration(
-                                            color: accentGreen,
-                                            borderRadius:
-                                                BorderRadius.circular(20),
-                                          ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(20),
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: [
-                                                Text(
-                                                  back,
-                                                  style: const TextStyle(
-                                                    color: Colors.white,
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 20,
-                                                  ),
-                                                ),
-                                                addVerticalSpace(10),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      );
-                                    },
+                                    ],
                                   ),
-                                )
-                              ],
-                            ),
-                          ),
-                          addVerticalSpace(30),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 30, right: 30),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Flexible(
-                                      child: Text(
-                                        description,
-                                        style: const TextStyle(
-                                            color: Colors.white),
-                                      ),
+                                  back: Container(
+                                    width: 300,
+                                    margin: const EdgeInsets.only(right: 20),
+                                    decoration: BoxDecoration(
+                                      color: accentGreen,
+                                      borderRadius: BorderRadius.circular(20),
                                     ),
-                                    const Text(
-                                      '  | ',
-                                      style: TextStyle(color: Colors.white),
-                                    ),
-                                    Text(
-                                      "${data.length} terms",
-                                      style:
-                                          const TextStyle(color: Colors.white),
-                                      textAlign: TextAlign.left,
-                                    ),
-                                  ],
-                                ),
-                                addVerticalSpace(30),
-                                SizedBox(
-                                  width: double.infinity,
-                                  height: 60,
-                                  child: ElevatedButton(
-                                    onPressed: () {
-                                      goToTestMode();
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: accentGreen,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      padding: const EdgeInsets.symmetric(
-                                        vertical: 12,
-                                        horizontal: 24,
-                                      ),
-                                    ),
-                                    child: Row(
-                                      children: [
-                                        Image.asset(
-                                          'assets/images/exam.png',
-                                          width: 20,
-                                          height: 20,
-                                        ),
-                                        addHorizontalSpace(20),
-                                        const Text(
-                                          'Test',
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 16,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                addVerticalSpace(30),
-                                const Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      'Cards',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w900,
-                                      ),
-                                    ),
-                                    Icon(Icons.sort, color: Colors.white),
-                                  ],
-                                ),
-                                addVerticalSpace(20),
-                                SizedBox(
-                                  height: data.length * 120.0,
-                                  child: ListView.builder(
-                                    itemCount: data.length,
-                                    itemBuilder: (context, index) {
-                                      String key = data.keys.elementAt(index);
-                                      String value =
-                                          data.values.elementAt(index);
-                                      return Container(
-                                        margin:
-                                            const EdgeInsets.only(bottom: 20),
-                                        decoration: BoxDecoration(
-                                          color:
-                                              accentGreen, // Change this to your desired color
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                        ),
-                                        child: ListTile(
-                                          title: Text(
-                                            key,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(20),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            back,
                                             style: const TextStyle(
                                               color: Colors.white,
                                               fontWeight: FontWeight.bold,
                                               fontSize: 20,
                                             ),
                                           ),
-                                          subtitle: Text(
-                                            value,
-                                            style: const TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 16,
-                                            ),
-                                          ),
-                                          tileColor: accentGreen,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(20),
-                                          ),
-                                        ),
-                                      );
-                                    },
+                                          addVerticalSpace(10),
+                                        ],
+                                      ),
+                                    ),
                                   ),
-                                )
-                              ],
+                                );
+                              },
                             ),
-                          ),
+                          )
                         ],
                       ),
-                    )
+                    ),
+                    addVerticalSpace(30),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 30, right: 30),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Flexible(
+                                child: Text(
+                                  description,
+                                  style: const TextStyle(color: Colors.white),
+                                ),
+                              ),
+                              const Text(
+                                '  | ',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              Text(
+                                "${data.length} terms",
+                                style: const TextStyle(color: Colors.white),
+                                textAlign: TextAlign.left,
+                              ),
+                            ],
+                          ),
+                          addVerticalSpace(30),
+                          SizedBox(
+                            width: double.infinity,
+                            height: 60,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                goToTestMode();
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: accentGreen,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 12,
+                                  horizontal: 24,
+                                ),
+                              ),
+                              child: Row(
+                                children: [
+                                  Image.asset(
+                                    'assets/images/exam.png',
+                                    width: 20,
+                                    height: 20,
+                                  ),
+                                  addHorizontalSpace(20),
+                                  const Text(
+                                    'Test',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          addVerticalSpace(30),
+                          const Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Cards',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w900,
+                                ),
+                              ),
+                              Icon(Icons.sort, color: Colors.white),
+                            ],
+                          ),
+                          addVerticalSpace(20),
+                          SizedBox(
+                            height: data.length * 100.0,
+                            child: ListView.builder(
+                              itemCount: data.length,
+                              itemBuilder: (context, index) {
+                                String key = data.keys.elementAt(index);
+                                String value =
+                                    data.values.elementAt(index);
+                                return Container(
+                                  margin:
+                                      const EdgeInsets.only(bottom: 20),
+                                  decoration: BoxDecoration(
+                                    color:
+                                        accentGreen, // Change this to your desired color
+                                    borderRadius:
+                                        BorderRadius.circular(20),
+                                  ),
+                                  child: ListTile(
+                                    title: Text(
+                                      key,
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                    subtitle: Text(
+                                      value,
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                    tileColor: accentGreen,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(20),
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
                   ],
                 ),
-              ),
+              )
             ],
           ),
         ),

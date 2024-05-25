@@ -6,7 +6,6 @@ import 'package:vis_can_learn/features/dashboard/views/dashboard_screen.dart';
 import 'package:vis_can_learn/theme/custom_colors.dart';
 import 'package:vis_can_learn/utils/widget_helper.dart';
 import 'package:vis_can_learn/common/wiget/input_text_secondary.dart';
-import 'package:vis_can_learn/common/wiget/dynamic_create_set_cards.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:math';
 
@@ -64,6 +63,7 @@ class _CreateSetState extends State<CreateSet> {
       frontSideControllers.removeAt(index);
       definitionControllers.removeAt(index);
     });
+    SnackBar(content: const Text('Card deleted successfully'));
   }
 
   String generateRandomString(int length) {
@@ -97,6 +97,7 @@ class _CreateSetState extends State<CreateSet> {
     };
 
     FirebaseFirestore.instance.collection('sets').add(set);
+    SnackBar(content: const Text('Set created successfully'));
     goToDashboard();
   }
 
