@@ -124,7 +124,7 @@ class _CreateSetState extends State<CreateSet> {
           color: background,
         ),
         child: Padding(
-          padding: const EdgeInsets.all(30.0),
+          padding: const EdgeInsets.symmetric(horizontal: 30),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -132,6 +132,7 @@ class _CreateSetState extends State<CreateSet> {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
+                      addVerticalSpace(30),
                       InputTextSecondary(
                           text: 'Subject, chapter, unit', controller: setText),
                       const Text(
@@ -150,8 +151,9 @@ class _CreateSetState extends State<CreateSet> {
                         'COURSE',
                         style: TextStyle(color: Colors.white),
                       ),
+                      addVerticalSpace(30),
                       Container(
-                        height: items.length * 200,
+                        height: (items.length + 1) * 225.0,
                         child: MyCard(
                           addCardCallback: addCard,
                           items: items,
@@ -159,7 +161,6 @@ class _CreateSetState extends State<CreateSet> {
                           definitionControllers: definitionControllers,
                         ),
                       ),
-                      addVerticalSpace(40)
                     ],
                   ),
                 ),

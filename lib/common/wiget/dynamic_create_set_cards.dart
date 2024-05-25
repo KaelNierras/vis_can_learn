@@ -40,33 +40,34 @@ class _MyCardState extends State<MyCard> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Expanded(
-          child: ListView.builder(
-            itemCount: widget.items.length,
-            itemBuilder: (context, index) {
-              return Slidable(
-                key: Key(index.toString()),
-                endActionPane: ActionPane(
-                  // A motion is a widget used to control how the pane animates.
-                  motion: const ScrollMotion(),
+        Column(
+          children: widget.items.asMap().entries.map((entry) {
+            int index = entry.key;
+            return Slidable(
+              key: Key(index.toString()),
+              endActionPane: ActionPane(
+                // A motion is a widget used to control how the pane animates.
+                motion: const ScrollMotion(),
 
-                  // All actions are defined in the children parameter.
-                  children: [
-                    // A SlidableAction can have an icon and/or a label.
-                    SlidableAction(
-                      onPressed: (context) => deleteCard(index),
-                      backgroundColor: const Color(0xFFFE4A49),
-                      foregroundColor: Colors.white,
-                      icon: Icons.delete,
-                      label: 'Delete',
-                    ),
-                  ],
-                ),
-                child: Card(
-                  child: ListTile(
-                    title: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 10.0, horizontal: 5.0),
+                // All actions are defined in the children parameter.
+                children: [
+                  // A SlidableAction can have an icon and/or a label.
+                  SlidableAction(
+                    onPressed: (context) => deleteCard(index),
+                    backgroundColor: const Color(0xFFFE4A49),
+                    foregroundColor: Colors.white,
+                    icon: Icons.delete,
+                    label: 'Delete',
+                  ),
+                ],
+              ),
+              child: Card(
+                child: ListTile(
+                  title: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 10.0, horizontal: 5.0),
+                    child: SizedBox(
+                      height: 200,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -78,11 +79,11 @@ class _MyCardState extends State<MyCard> {
                             'TERM (FRONT SIDE)',
                             style: TextStyle(color: Colors.white),
                           ),
-                            addVerticalSpace(20),
+                          addVerticalSpace(20),
                           InputTextSecondary(
                               text: '',
                               controller: widget.definitionControllers[index]),
-                              const Text(
+                          const Text(
                             'DEFINATION (BACK SIDE)',
                             style: TextStyle(color: Colors.white),
                           ),
@@ -91,9 +92,9 @@ class _MyCardState extends State<MyCard> {
                     ),
                   ),
                 ),
-              );
-            },
-          ),
+              ),
+            );
+          }).toList(),
         ),
         addVerticalSpace(30),
         SizedBox(
