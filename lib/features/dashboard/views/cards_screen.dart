@@ -213,6 +213,7 @@ class _CardsScreenState extends State<CardsScreen> {
                                     children: [
                                       ElevatedButton(
                                         onPressed: () {
+                                          Navigator.pop(context); // Add this line
                                           addPerson(emailController.text);
                                         },
                                         child: const Text('Add Person'),
@@ -229,6 +230,7 @@ class _CardsScreenState extends State<CardsScreen> {
                                                   Colors.redAccent),
                                         ),
                                         onPressed: () {
+                                          Navigator.pop(context); // Add this line
                                           removePerson(emailController.text);
                                         },
                                         child: const Text('Remove Person'),

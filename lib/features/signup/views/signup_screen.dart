@@ -66,104 +66,102 @@ class _SignupState extends State<Signup> {
           //   fit: BoxFit.cover, // Adjust the image size
           // ),
         ),
-        child: Expanded(
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(30),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  addVerticalSpace(
-                    MediaQuery.of(context).size.height / 5,
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(30),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                addVerticalSpace(
+                  MediaQuery.of(context).size.height / 5,
+                ),
+                const Text(
+                  "Sign Up",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 35,
+                    fontWeight: FontWeight.w900,
                   ),
-                  const Text(
-                    "Sign Up",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 35,
-                      fontWeight: FontWeight.w900,
+                ),
+                addVerticalSpace(30),
+                InputText(
+                  controller: emailController,
+                  name: "Email",
+                  fill: false,
+                ),
+                addVerticalSpace(15),
+                InputText(
+                  controller: passwordController,
+                  name: "Password",
+                  fill: false,
+                ),
+                addVerticalSpace(15),
+                InputText(
+                  controller: confirmPasswordController,
+                  name: "Confirm Password",
+                  fill: false,
+                ),
+                addVerticalSpace(20),
+                const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'By registering, you are agreeing to our    \n    Terms of Use and Privacy Policy',
+                      style: TextStyle(color: Colors.white),
                     ),
+                  ],
+                ),
+                addVerticalSpace(30),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      String email = emailController.text;
+                      String password = passwordController.text;
+                      String confirmPassword = confirmPasswordController.text;
+                    
+                      if (email.isEmpty || !email.contains('@')) {
+                        SnackBar(content: const Text('Please enter a valid email'));
+                        return;
+                      }
+                    
+                      if (password.isEmpty || password.length < 6) {
+                        SnackBar(content: const Text('Password must be at least 6 characters long'));
+                        return;
+                      }
+                    
+                      if (confirmPassword != password) {
+                        SnackBar(content: const Text('Password does not match'));
+                        return;
+                      }
+                      createUser(email, password);
+                    },
+                    child: const Text('Sign Up'),
                   ),
-                  addVerticalSpace(30),
-                  InputText(
-                    controller: emailController,
-                    name: "Email",
-                    fill: false,
-                  ),
-                  addVerticalSpace(15),
-                  InputText(
-                    controller: passwordController,
-                    name: "Password",
-                    fill: false,
-                  ),
-                  addVerticalSpace(15),
-                  InputText(
-                    controller: confirmPasswordController,
-                    name: "Confirm Password",
-                    fill: false,
-                  ),
-                  addVerticalSpace(20),
-                  const Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'By registering, you are agreeing to our    \n    Terms of Use and Privacy Policy',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ],
-                  ),
-                  addVerticalSpace(30),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        String email = emailController.text;
-                        String password = passwordController.text;
-                        String confirmPassword = confirmPasswordController.text;
-                      
-                        if (email.isEmpty || !email.contains('@')) {
-                          SnackBar(content: const Text('Please enter a valid email'));
-                          return;
-                        }
-                      
-                        if (password.isEmpty || password.length < 6) {
-                          SnackBar(content: const Text('Password must be at least 6 characters long'));
-                          return;
-                        }
-                      
-                        if (confirmPassword != password) {
-                          SnackBar(content: const Text('Password does not match'));
-                          return;
-                        }
-                        createUser(email, password);
+                ),
+                addVerticalSpace(10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      'Already have an account?',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    addHorizontalSpace(5),
+                    GestureDetector(
+                      onTap: () {
+                        gotoLogIn();
                       },
-                      child: const Text('Sign Up'),
+                      child: const Text(
+                        'Log In',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, color: orange),
+                      ),
                     ),
-                  ),
-                  addVerticalSpace(10),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text(
-                        'Already have an account?',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      addHorizontalSpace(5),
-                      GestureDetector(
-                        onTap: () {
-                          gotoLogIn();
-                        },
-                        child: const Text(
-                          'Log In',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, color: orange),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+                  ],
+                ),
+              ],
             ),
           ),
         ),

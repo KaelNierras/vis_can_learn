@@ -1,5 +1,8 @@
 // ignore_for_file: library_private_types_in_public_api
 
+import 'dart:ffi';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:vis_can_learn/features/dashboard/views/dashboard_screen.dart';
@@ -10,7 +13,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:math';
 
 class CreateSet extends StatefulWidget {
-  const CreateSet({super.key});
+  const CreateSet({super.key,});
 
   @override
   State<CreateSet> createState() => _CreateSetState();
@@ -25,12 +28,29 @@ class _CreateSetState extends State<CreateSet> {
   List<TextEditingController> frontSideControllers = [];
   List<TextEditingController> definitionControllers = [];
 
+  List<String> currentUser = [];
+
   @override
   void initState() {
     super.initState();
+    fetchUserId();
     for (var i = 0; i < items.length; i++) {
       frontSideControllers.add(TextEditingController());
       definitionControllers.add(TextEditingController());
+    }
+  }
+
+  void fetchUserId() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      if (mounted) {
+        // Check if the widget is still in the widget tree
+        setState(() {
+          currentUser.add(user.email.toString());
+        });
+      }
+    } else {
+      // Handle the case when the user is null
     }
   }
 
@@ -113,8 +133,9 @@ class _CreateSetState extends State<CreateSet> {
       'set_description': description.text,
       'set_array': cards,
       'set_course': course.text,
+      'set_owner': currentUser as List,
     };
-
+    
     FirebaseFirestore.instance.collection('sets').add(set);
     showSnackBar('Set created successfully');
     goToDashboard();
@@ -238,7 +259,7 @@ class _CreateSetState extends State<CreateSet> {
                                                         definitionControllers[
                                                             index]),
                                                 const Text(
-                                                  'DEFINATION (BACK SIDE) - Max 100 characters',
+                                                  'DEFINITION (BACK SIDE) - Max 100 characters',
                                                   style: TextStyle(
                                                       color: Colors.white),
                                                 ),
