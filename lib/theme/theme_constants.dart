@@ -5,6 +5,7 @@ const appBarBackground = Color(0xFF4C8C7C); // darker shade of light blue for ap
 const colorAccent = Color(0xFFE9C569); // darker shade of light blue for accent
 
 ThemeData lightTheme = ThemeData(
+  scaffoldBackgroundColor: Colors.green,
   brightness: Brightness.light,
   primaryColor: colorPrimary,
   appBarTheme: const AppBarTheme(

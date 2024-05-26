@@ -1,4 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:vis_can_learn/features/dashboard/controllers/dashboard_controller.dart';
+import 'package:vis_can_learn/features/dashboard/models/set_model.dart';
+import 'package:vis_can_learn/features/dashboard/views/cards_screen.dart';
 import 'package:vis_can_learn/features/dashboard/views/create_set.dart';
 import 'package:vis_can_learn/features/dashboard/views/dashboard_screen.dart';
 import 'package:vis_can_learn/theme/custom_colors.dart';
@@ -12,6 +16,34 @@ class LibraryScreen extends StatefulWidget {
 }
 
 class _LibraryScreenState extends State<LibraryScreen> {
+  @override
+  void initState() {
+    super.initState();
+    fetchUserId();
+    fetchReviewers();
+  }
+
+  Map<String, dynamic> data = {};
+  String currentUser = '';
+
+  void fetchUserId() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      setState(() {
+        currentUser = user.email.toString();
+      });
+    } else {}
+  }
+
+  void goToCardScreen(String setId, String title) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) =>
+            CardsScreen(setId: setId, title: title, personId: currentUser),
+      ),
+    );
+  }
 
   void goToDashboard() {
     Navigator.push(
@@ -31,8 +63,6 @@ class _LibraryScreenState extends State<LibraryScreen> {
     );
   }
 
-
-
   void goToCreateSet() {
     Navigator.push(
       context,
@@ -42,13 +72,15 @@ class _LibraryScreenState extends State<LibraryScreen> {
     );
   }
 
-  Map<String, int> data = {
-    'VSU Reviewer': 256,
-    '(Draft) Untitled Set': 5,
-    // Add more entries as needed
-  };
-
-  String selectedFilter = 'All';
+  void fetchReviewers() async {
+    List<Sets> reviewers = await getReviewers(currentUser);
+    setState(() {
+      data = {
+        for (var reviewer in reviewers)
+          reviewer.name: {'count': reviewer.count, 'id': reviewer.id}
+      };
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +96,8 @@ class _LibraryScreenState extends State<LibraryScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                width: MediaQuery.of(context).size.width, // Set the width to 100%
+                width:
+                    MediaQuery.of(context).size.width, // Set the width to 100%
                 decoration: BoxDecoration(
                   gradient: gradientAppbar,
                   borderRadius: const BorderRadius.only(
@@ -112,54 +145,11 @@ class _LibraryScreenState extends State<LibraryScreen> {
                           color: lightGreen,
                           thickness: 1.5,
                         ),
-                            
-                        Row(
-                          children: [
-                            const SizedBox(width: 30),
-                            
-                            Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: lightGreen, // Choose your border color
-                                  width: 1.2, // Adjust border width as needed
-                                ),
-                                borderRadius: BorderRadius.circular(4.0), // Adjust border radius as needed
-                              ),
-                              child: DropdownButton<String>(
-                                value: selectedFilter,
-                                onChanged: (String? newValue) {
-                                  setState(() {
-                                    selectedFilter = newValue!;
-                                  });
-                                },
-                                dropdownColor: Colors.grey[800], // Set the background color of the dropdown menu
-                                style: const TextStyle(color: Colors.white), // Set the text color of the dropdown button
-                                icon: const Icon(Icons.arrow_drop_down, color: Colors.white), // Set the color of the dropdown icon
-                                items: <String>['All', 'In Progress', 'Today'].map<DropdownMenuItem<String>>((String value) {
-                                  return DropdownMenuItem<String>(
-                                    value: value,
-                                    child: Text(
-                                      value,
-                                      style: const TextStyle(
-                                        color: Colors.white, // Set the text color of the dropdown choices
-                                        fontSize: 10,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                  );
-                                }).toList(),
-                              ),
-                            ),
-                            
-                            const SizedBox(width: 70),
-                            
-                          ],
-                        ),
-                            
                         const Padding(
-                          padding: EdgeInsets.only(left: 30.0, top: 20, bottom: 20),
+                          padding:
+                              EdgeInsets.only(left: 30.0, top: 20, bottom: 20),
                           child: Text(
-                            "In progress",
+                            "All Sets",
                             style: TextStyle(
                               color: orange,
                               fontSize: 14,
@@ -167,99 +157,70 @@ class _LibraryScreenState extends State<LibraryScreen> {
                             ),
                           ),
                         ),
-                            
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: data.entries.map((MapEntry<String, int> entry) {
-                            String key = entry.key;
-                            int value = entry.value;
-                            return Container(
-                              width: MediaQuery.of(context).size.width - 70,
-                              height: 90,
-                              margin: const EdgeInsets.only(left: 30, bottom: 20),
-                              decoration: BoxDecoration(
-                                color: accentGreen,
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(20),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      key,
-                                      style: const TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20,
+                        Center(
+                          child: SizedBox(
+                            height: data.length * 130.0,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: data.keys.toList().map((key) {
+                                return GestureDetector(
+                                  onTap: () {
+                                    // Handle your tap event here
+                                    //print('Card $key clicked');
+                                    goToCardScreen(
+                                        data[key]['id'], key.toString());
+                                  },
+                                  child: Container(
+                                    width: MediaQuery.of(context).size.width - 40,
+                                    margin: const EdgeInsets.only(bottom: 20),
+                                    decoration: BoxDecoration(
+                                      color: accentGreen,
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(20),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(key,
+                                              style: const TextStyle(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 20)),
+                                          addVerticalSpace(10),
+                                          if (data[key] == 1)
+                                            Text('${data[key]['count']} term',
+                                                style: const TextStyle(
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 15))
+                                          else
+                                            Text('${data[key]['count']} terms',
+                                                style: const TextStyle(
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 15))
+                                        ],
                                       ),
                                     ),
-                                    Text(
-                                      '$value Terms',
-                                      style: const TextStyle(color: Colors.white),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            );
-                          }).toList(),
-                        ),
-                            
-                        const Padding(
-                          padding: EdgeInsets.only(left: 30.0, bottom: 20),
-                          child: Text(
-                            "Today",
-                            style: TextStyle(
-                              color: orange,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w700,
+                                  ),
+                                );
+                              }).toList(),
                             ),
                           ),
-                        ),
-                            
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: data.entries.map((MapEntry<String, int> entry) {
-                            String key = entry.key;
-                            int value = entry.value;
-                            return Container(
-                              width: MediaQuery.of(context).size.width - 70,
-                              height: 90,
-                              margin: const EdgeInsets.only(left: 30, bottom: 20),
-                              decoration: BoxDecoration(
-                                color: accentGreen,
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(20),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      key,
-                                      style: const TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20,
-                                      ),
-                                    ),
-                                    Text(
-                                      '$value Terms',
-                                      style: const TextStyle(color: Colors.white),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            );
-                          }).toList(),
-                        ),
+                        )
                       ],
                     ),
                   ),
                 ),
               ),
               Container(
-                width: MediaQuery.of(context).size.width, // Set the width to 100%
+                width:
+                    MediaQuery.of(context).size.width, // Set the width to 100%
                 height: 65,
                 decoration: const BoxDecoration(
                   color: accentGreen,
