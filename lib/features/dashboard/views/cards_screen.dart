@@ -147,8 +147,8 @@ class _CardsScreenState extends State<CardsScreen> {
         title: Center(
           child: Text(
             widget.title,
-            style:
-                TextStyle(color: Colors.white), // Set the color of the title text
+            style: TextStyle(
+                color: Colors.white), // Set the color of the title text
           ),
         ),
         actions: <Widget>[
@@ -266,7 +266,9 @@ class _CardsScreenState extends State<CardsScreen> {
       ),
       body: SingleChildScrollView(
         child: Container(
-          height: MediaQuery.of(context).size.height * .99,
+          height: (MediaQuery.of(context).size.height -
+                  (MediaQuery.of(context).size.height * .40)) +
+              ((data.length == 1? data.length + 1 : data.length) * 131.0) - (data.length > 3? data.length * 7: 0),
           width: MediaQuery.of(context).size.width,
           decoration: const BoxDecoration(
             color: background,
@@ -290,8 +292,7 @@ class _CardsScreenState extends State<CardsScreen> {
                                 String key = data.keys.elementAt(index);
                                 String back = data.values.elementAt(index);
                                 return FlipCard(
-                                  direction:
-                                      FlipDirection.VERTICAL, // default
+                                  direction: FlipDirection.VERTICAL, // default
                                   front: Stack(
                                     // Use Stack to overlay the icon on top of the card
                                     children: [
@@ -441,22 +442,20 @@ class _CardsScreenState extends State<CardsScreen> {
                             ],
                           ),
                           addVerticalSpace(20),
-                          SizedBox(
-                            height: data.length * 100.0,
-                            child: ListView.builder(
-                              itemCount: data.length,
-                              itemBuilder: (context, index) {
-                                String key = data.keys.elementAt(index);
-                                String value =
-                                    data.values.elementAt(index);
+                          Container(
+                            //color: Colors.yellow,
+                            height: data.length * 140.0,
+                            child: Column(
+                              children: data.entries.map((entry) {
+                                String key = entry.key;
+                                String value = entry.value;
                                 return Container(
-                                  margin:
-                                      const EdgeInsets.only(bottom: 20),
+                                  height: 120,
+                                  margin: const EdgeInsets.only(bottom: 20),
                                   decoration: BoxDecoration(
                                     color:
                                         accentGreen, // Change this to your desired color
-                                    borderRadius:
-                                        BorderRadius.circular(20),
+                                    borderRadius: BorderRadius.circular(20),
                                   ),
                                   child: ListTile(
                                     title: Text(
@@ -476,12 +475,11 @@ class _CardsScreenState extends State<CardsScreen> {
                                     ),
                                     tileColor: accentGreen,
                                     shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(20),
+                                      borderRadius: BorderRadius.circular(20),
                                     ),
                                   ),
                                 );
-                              },
+                              }).toList(),
                             ),
                           )
                         ],

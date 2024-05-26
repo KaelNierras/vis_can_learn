@@ -219,7 +219,7 @@ class _CreateSetState extends State<CreateSet> {
                                                         definitionControllers[
                                                             index]),
                                                 const Text(
-                                                  'DEFINATION (BACK SIDE)',
+                                                  'DEFINATION (BACK SIDE) - Max 100 characters',
                                                   style: TextStyle(
                                                       color: Colors.white),
                                                 ),
