@@ -66,6 +66,25 @@ class _CreateSetState extends State<CreateSet> {
     SnackBar(content: const Text('Card deleted successfully'));
   }
 
+  void showSnackBar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        showCloseIcon: true,
+        content: Text(message),
+        duration: const Duration(milliseconds: 3000),
+        width: 280.0, // Width of the SnackBar.
+        padding: const EdgeInsets.symmetric(
+            horizontal: 8.0,
+            vertical: 5.0 // Inner padding for SnackBar content.
+            ),
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+      ),
+    );
+  }
+
   String generateRandomString(int length) {
     const allowedChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     final random = Random();
@@ -97,7 +116,7 @@ class _CreateSetState extends State<CreateSet> {
     };
 
     FirebaseFirestore.instance.collection('sets').add(set);
-    SnackBar(content: const Text('Set created successfully'));
+    showSnackBar('Set created successfully');
     goToDashboard();
   }
 

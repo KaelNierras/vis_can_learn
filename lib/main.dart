@@ -22,6 +22,8 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  isViewed = prefs.getInt('onboard');
   runApp(const MyApp());
 }
 
@@ -45,28 +47,28 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       title: 'VisCanLearn',
       theme: lightTheme,
-      home: Login(),
-      // home: StreamBuilder(
-      //   stream: FirebaseAuth.instance.authStateChanges(),
-      //   builder: (context, snapshot) {
-      //     if (snapshot.connectionState == ConnectionState.waiting) {
-      //       return const CircularProgressIndicator(); // Display loading indicator while checking authentication state.
-      //     } else {
-      //       if (isViewed == null || isViewed == 0) {
-      //         // User hasn't viewed the onboarding screen yet, navigate to OnboardingScreen.
-      //         return const OnboardingScreen();
-      //       } else {
-      //         if (snapshot.hasData) {
-      //           // User is logged in, navigate to Dashboard.
-      //           return const Dashboard();
-      //         } else {
-      //           // User is not logged in, navigate to Login.
-      //           return const Login();
-      //         }
-      //       }
-      //     }
-      //   },
-      // ),
+      //home: Login(),
+      home: StreamBuilder(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const CircularProgressIndicator(); // Display loading indicator while checking authentication state.
+          } else {
+            if (isViewed == null || isViewed == 1) {
+              // User hasn't viewed the onboarding screen yet, navigate to OnboardingScreen.
+              return const OnboardingScreen();
+            } else {
+              if (snapshot.hasData) {
+                // User is logged in, navigate to Dashboard.
+                return const Dashboard();
+              } else {
+                // User is not logged in, navigate to Login.
+                return const Login();
+              }
+            }
+          }
+        },
+      ),
     );
   }
 }

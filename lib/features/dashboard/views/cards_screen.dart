@@ -26,6 +26,29 @@ class _CardsScreenState extends State<CardsScreen> {
     getData(widget.setId);
   }
 
+  Map<String, String> data = {};
+
+  String description = "";
+
+  void showSnackBar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        showCloseIcon: true,
+        content:  Text(message),
+        duration: const Duration(milliseconds: 3000),
+        width: 280.0, // Width of the SnackBar.
+        padding: const EdgeInsets.symmetric(
+            horizontal: 8.0,
+            vertical: 5.0 // Inner padding for SnackBar content.
+            ),
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+      ),
+    );
+  }
+
   void deleteSet() async {
     FirebaseFirestore firestore = FirebaseFirestore.instance;
     CollectionReference<Map<String, dynamic>> collectionRef =
@@ -38,10 +61,9 @@ class _CardsScreenState extends State<CardsScreen> {
       await collectionRef
           .doc(docId)
           .delete(); // Delete the document using the document ID
+      showSnackBar("Set deleted successfully");
     } else {
-      SnackBar(
-        content: const Text("No such document."),
-      );
+      showSnackBar("No such document.");
     }
   }
 
@@ -62,10 +84,6 @@ class _CardsScreenState extends State<CardsScreen> {
       ),
     );
   }
-
-  Map<String, String> data = {};
-
-  String description = "";
 
   Future<void> getData(String setId) async {
     FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -105,8 +123,9 @@ class _CardsScreenState extends State<CardsScreen> {
         doc.reference.update({
           'set_owner': FieldValue.arrayRemove([personId])
         });
+        showSnackBar('Person removed successfully');
       } else {
-        SnackBar(content: Text('No matching document found'));
+        showSnackBar('No matching document found');
       }
     });
   }
@@ -125,10 +144,9 @@ class _CardsScreenState extends State<CardsScreen> {
         doc.reference.update({
           'set_owner': FieldValue.arrayUnion([personId])
         });
+        showSnackBar('Person added successfully');
       } else {
-        SnackBar(
-          content: const Text('No matching document found'),
-        );
+        showSnackBar('No matching document found');
       }
     });
   }
@@ -265,7 +283,8 @@ class _CardsScreenState extends State<CardsScreen> {
           )
         ],
       ),
-      body: Expanded(
+      body: Container(
+        height: MediaQuery.of(context).size.height,
         child: SingleChildScrollView(
           child: Column(
             children: [
@@ -291,12 +310,10 @@ class _CardsScreenState extends State<CardsScreen> {
                                   children: [
                                     Container(
                                       width: 300,
-                                      margin:
-                                          const EdgeInsets.only(right: 20),
+                                      margin: const EdgeInsets.only(right: 20),
                                       decoration: BoxDecoration(
                                         color: accentGreen,
-                                        borderRadius:
-                                            BorderRadius.circular(20),
+                                        borderRadius: BorderRadius.circular(20),
                                       ),
                                       child: Padding(
                                         padding: const EdgeInsets.all(20),

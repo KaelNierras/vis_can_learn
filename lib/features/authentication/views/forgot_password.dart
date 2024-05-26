@@ -15,10 +15,29 @@ class ForgotPassword extends StatefulWidget {
 
 class _ForgotPasswordState extends State<ForgotPassword> {
 
+  void showSnackBar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        showCloseIcon: true,
+        content: Center(child: Text(message)),
+        duration: const Duration(milliseconds: 3000),
+        width: 280.0, // Width of the SnackBar.
+        padding: const EdgeInsets.symmetric(
+            horizontal: 8.0,
+            vertical: 5.0 // Inner padding for SnackBar content.
+            ),
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+      ),
+    );
+  }
+
   void sendResetEmail(String email) async {
     await FirebaseAuth.instance
     .sendPasswordResetEmail(email: email);
-    SnackBar(content: const Text('Password reset email sent'));
+    showSnackBar('Password reset email sent');
   }
 
   void gotoLogIn() {
@@ -29,10 +48,12 @@ class _ForgotPasswordState extends State<ForgotPassword> {
       ),
     );
   }
+  
+  var emailController = TextEditingController();
+
 
   @override
   Widget build(BuildContext context) {
-    var emailController = TextEditingController();
     return Scaffold(
       body: Container(
         width: MediaQuery.of(context).size.width, // Set the width to 100%

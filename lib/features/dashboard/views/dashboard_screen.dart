@@ -10,7 +10,6 @@ import 'package:vis_can_learn/features/dashboard/models/set_model.dart';
 import 'package:vis_can_learn/features/dashboard/controllers/dashboard_controller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
 
@@ -19,8 +18,6 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
-
-
   @override
   void initState() {
     super.initState();
@@ -28,10 +25,27 @@ class _DashboardState extends State<Dashboard> {
     fetchReviewers();
   }
 
-  
   Map<String, dynamic> data = {};
-  String currentUser = '' ;
-  
+  String currentUser = '';
+
+  void showSnackBar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        showCloseIcon: true,
+        content: Text(message),
+        duration: const Duration(milliseconds: 3000),
+        width: 280.0, // Width of the SnackBar.
+        padding: const EdgeInsets.symmetric(
+            horizontal: 8.0,
+            vertical: 5.0 // Inner padding for SnackBar content.
+            ),
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+      ),
+    );
+  }
 
   void goToCreateSet() {
     Navigator.push(
@@ -41,7 +55,6 @@ class _DashboardState extends State<Dashboard> {
       ),
     );
   }
-
 
   void goToDashboard() {
     Navigator.push(
@@ -59,14 +72,17 @@ class _DashboardState extends State<Dashboard> {
     );
   }
 
-
   void fetchUserId() async {
     User? user = FirebaseAuth.instance.currentUser;
     if (user != null) {
-      setState(() {
-        currentUser = user.email.toString();
-      });
+      if (mounted) {
+        // Check if the widget is still in the widget tree
+        setState(() {
+          currentUser = user.email.toString();
+        });
+      }
     } else {
+      // Handle the case when the user is null
     }
   }
 
@@ -92,19 +108,24 @@ class _DashboardState extends State<Dashboard> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => CardsScreen(setId: setId, title: title, personId: currentUser),
+        builder: (context) =>
+            CardsScreen(setId: setId, title: title, personId: currentUser),
       ),
     );
   }
 
   void fetchReviewers() async {
     List<Sets> reviewers = await getReviewers(currentUser);
-    setState(() {
-      data = {for (var reviewer in reviewers) reviewer.name: {'count': reviewer.count, 'id': reviewer.id}};
-    });
+    if (mounted) {
+      // Check if the widget is still in the widget tree
+      setState(() {
+        data = {
+          for (var reviewer in reviewers)
+            reviewer.name: {'count': reviewer.count, 'id': reviewer.id}
+        };
+      });
+    }
   }
-
-  
 
   @override
   Widget build(BuildContext context) {
@@ -120,7 +141,8 @@ class _DashboardState extends State<Dashboard> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                width: MediaQuery.of(context).size.width, // Set the width to 100%
+                width:
+                    MediaQuery.of(context).size.width, // Set the width to 100%
                 decoration: BoxDecoration(
                   gradient: gradientAppbar,
                   borderRadius: const BorderRadius.only(
@@ -128,7 +150,8 @@ class _DashboardState extends State<Dashboard> {
                     bottomRight: Radius.circular(40),
                   ),
                 ),
-                padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
                 child: Column(
                   children: [
                     Row(
@@ -151,6 +174,7 @@ class _DashboardState extends State<Dashboard> {
                               child: const Text("Signout"),
                               onTap: () async {
                                 await FirebaseAuth.instance.signOut();
+                                showSnackBar('Log out Success');
                                 goToLogin();
                               },
                             ),
@@ -249,8 +273,7 @@ class _DashboardState extends State<Dashboard> {
                               onTap: () {
                                 // Handle your tap event here
                                 //print('Card $key clicked');
-                                goToCardScreen(data[key]['id'],key.toString());
-          
+                                goToCardScreen(data[key]['id'], key.toString());
                               },
                               child: Container(
                                 width: 250,
@@ -263,7 +286,8 @@ class _DashboardState extends State<Dashboard> {
                                   padding: const EdgeInsets.all(20),
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(key,
                                           style: const TextStyle(
@@ -296,7 +320,8 @@ class _DashboardState extends State<Dashboard> {
                 ),
               ),
               Container(
-                width: MediaQuery.of(context).size.width, // Set the width to 100%
+                width:
+                    MediaQuery.of(context).size.width, // Set the width to 100%
                 height: 65,
                 decoration: const BoxDecoration(
                   color: accentGreen,
@@ -328,7 +353,7 @@ class _DashboardState extends State<Dashboard> {
                     ),
                     GestureDetector(
                       onTap: () {
-                       goToCreateSet();
+                        goToCreateSet();
                       },
                       child: Container(
                         decoration: BoxDecoration(

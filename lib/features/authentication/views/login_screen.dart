@@ -18,6 +18,9 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   int? isViewed;
+  bool _passwordVisible = false;
+  var emailController = TextEditingController();
+  var passwordController = TextEditingController();
 
   @override
   void initState() {
@@ -42,17 +45,36 @@ class _LoginState extends State<Login> {
     );
   }
 
+  void showSnackBar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        showCloseIcon: true,
+        content: Text(message),
+        duration: const Duration(milliseconds: 3000),
+        width: 280.0, // Width of the SnackBar.
+        padding: const EdgeInsets.symmetric(
+            horizontal: 8.0,
+            vertical: 5.0 // Inner padding for SnackBar content.
+            ),
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+      ),
+    );
+  }
+
   void login(String email, String password) async {
     try {
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
-      SnackBar(content: const Text('Logged in successfully'));
+      showSnackBar('Log in Success');
       goToDashboard();
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
-        SnackBar(content: const Text('No user found for that email.'));
+        showSnackBar('No user found for that email.');
       } else if (e.code == 'wrong-password') {
-        SnackBar(content: const Text('Wrong password provided for that user.'));
+        showSnackBar('Wrong password provided for that user.');
       }
     }
   }
@@ -74,12 +96,10 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
-    var emailController = TextEditingController();
-    var passwordController = TextEditingController();
     return Scaffold(
       body: Container(
-        width: MediaQuery.of(context).size.width, 
-        height: MediaQuery.of(context).size.height, 
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
         decoration: const BoxDecoration(
           color: background,
         ),
@@ -108,10 +128,37 @@ class _LoginState extends State<Login> {
                   fill: false,
                 ),
                 addVerticalSpace(10),
-                InputText(
+                TextField(
                   controller: passwordController,
-                  name: "Password",
-                  fill: false,
+                  obscureText: !_passwordVisible, // Add this
+                  decoration: InputDecoration(
+                    filled: false,
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                      borderSide: const BorderSide(color: Colors.white),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                      borderSide: const BorderSide(color: Colors.white),
+                    ),
+                    labelText: 'Password',
+                    labelStyle: const TextStyle(color: Colors.white),
+                    suffixIcon: IconButton(
+                      // Add this
+                      icon: Icon(
+                        _passwordVisible
+                            ? Icons.visibility
+                            : Icons.visibility_off,
+                        color: Colors.white,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _passwordVisible = !_passwordVisible;
+                        });
+                      },
+                    ),
+                  ),
+                  style: const TextStyle(color: Colors.white),
                 ),
                 addVerticalSpace(20),
                 SizedBox(

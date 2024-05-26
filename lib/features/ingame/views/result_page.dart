@@ -79,7 +79,8 @@ class _ResultPageState extends State<ResultPage> {
           ),
         ),
       ),
-      body: Expanded(
+      body: Container(
+        height: MediaQuery.of(context).size.height,
         child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 30),

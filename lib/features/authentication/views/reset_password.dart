@@ -11,11 +11,11 @@ class ResetPassword extends StatefulWidget {
 }
 
 class _ResetPasswordState extends State<ResetPassword> {
+  var passwordController = TextEditingController();
+  var confirmPasswordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
-    var passwordController = TextEditingController();
-    var confirmPasswordController = TextEditingController();
-
     return Scaffold(
       body: Container(
         width: MediaQuery.of(context).size.width, // Set the width to 100%

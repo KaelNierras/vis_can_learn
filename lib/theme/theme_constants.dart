@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:vis_can_learn/theme/custom_colors.dart';
 
 const colorPrimary = Color(0xFF4D7C4B); // light blue in RGB
 const appBarBackground = Color(0xFF4C8C7C); // darker shade of light blue for appbar
 const colorAccent = Color(0xFFE9C569); // darker shade of light blue for accent
 
 ThemeData lightTheme = ThemeData(
-  scaffoldBackgroundColor: Colors.green,
+  scaffoldBackgroundColor: background,
   brightness: Brightness.light,
   primaryColor: colorPrimary,
   appBarTheme: const AppBarTheme(
